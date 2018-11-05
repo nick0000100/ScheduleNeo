@@ -1,0 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+ 
+namespace scheduleNEO.Models
+{
+    public class ScheduleContext : DbContext
+    {
+        public ScheduleContext(DbContextOptions<ScheduleContext> options) : base(options) { }
+
+        public DbSet<User> Users {get;set;}
+
+        public DbSet<Employee> Employees {get;set;}
+
+    }
+}

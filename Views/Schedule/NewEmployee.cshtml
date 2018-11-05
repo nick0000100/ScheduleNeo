@@ -1,0 +1,33 @@
+@model scheduleNEO.Models.RegisterEmployeeModel
+
+<div asp-validation-summary="All" class="error"></div>
+
+@{
+    if(TempData["Error"] != null)
+    {
+        <p class="error">@TempData["Error"]</p>
+    }
+
+    if(TempData["Success"] != null)
+    {
+        <p class="success">@TempData["Success"]</p>
+    }
+}
+
+<form action="addEmployee" method="POST">
+    <fieldset>
+        <legend>New Employee</legend>
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName"/>
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName"/>
+        <label asp-for="Alias"></label>
+        <input asp-for="Alias"/>
+        <label for="Cela">Is this person part of CELA?</label>
+        <input type="checkbox" name="Cela"/>
+        <input type="submit" value="Add Employee">
+    </fieldset>
+</form>
+
+<input type="button" value="Go to Scheduler" onclick="location.href='@Url.Action("schedule", "Schedule")'" />
+<input type="button" value="List of Employees" onclick="location.href='@Url.Action("action", "controller")'" />
