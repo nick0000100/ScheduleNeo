@@ -24,7 +24,7 @@ namespace scheduleNEO.Controllers
 
         [HttpGet]
         [Route("schedule")]
-        public IActionResult Schedule(int attendees)
+        public IActionResult Schedule()
         {
             return View();
         }
@@ -53,51 +53,6 @@ namespace scheduleNEO.Controllers
                                                         .ToList();
             }
             return View("Attending");
-        }
-
-        [HttpGet]
-        [Route("newEmployee")]
-        public IActionResult newEmployee()
-        {
-            //check if person has admin status
-            return View("NewEmployee");
-        }
-
-        [HttpPost]
-        [Route("addEmployee")]
-        public IActionResult addEmployee(RegisterEmployeeModel NewEmployee, string Cela)
-        {
-            if(ModelState.IsValid)
-            {
-                // Check to see if there is an employee with the existing alias
-                var existing = _context.Employees.Where(e => e.Alias == NewEmployee.Alias).SingleOrDefault();
-
-                if(existing == null) {
-
-                    int CelaCheck = 0;
-                    if(Cela == "checked")
-                    {
-                        CelaCheck = 1;
-                    }
-                    
-                    Employee NewE = new Employee
-                    {
-                        FirstName = NewEmployee.FirstName,
-                        LastName = NewEmployee.LastName,
-                        Alias = NewEmployee.Alias,
-                        IsCela = CelaCheck
-                    };
-
-                    // Addes new employee to db
-                    _context.Employees.Add(NewE);
-                    _context.SaveChanges();
-                    TempData["Success"]= "Employee Added";
-
-                }else {
-                    TempData["Error"] = "An employee with the same alias already exists.";
-                }
-            }
-            return View("NewEmployee");
         }
 
     }
