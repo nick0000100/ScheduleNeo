@@ -42,9 +42,18 @@ namespace scheduleNEO.Controllers
 
                 if(existing == null) {
                     // Checks to see if admin code is correct
-                    int AdminCheck = 0;
-                    if(AdminCode == "Admin") {
+                    int AdminCheck;
+                    if(AdminCode == "Admin") 
+                    {
                         AdminCheck = 1;
+                    }else if(AdminCode == null)
+                    {
+                        AdminCheck = 0;
+                    }
+                    else
+                    {
+                        TempData["Error"] = "Admin code incorrect, account not created.";
+                        return View("Index");
                     }
 
                     User NewU = new User
@@ -89,7 +98,7 @@ namespace scheduleNEO.Controllers
                 if(Hasher.VerifyHashedPassword(user, user.Password, Password) != 0)
                 {
                     HttpContext.Session.SetInt32("Id", user.Id);
-                    return RedirectToAction("Dashboard", "Wedding");
+                    return RedirectToAction("schedule", "Schedule");
                 }
             }
             TempData["Error"] = "Incorrect login information.";

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace scheduleNEO.Models
 {
-    public class Employee : BaseEntity
+    public class Employee : IComparable<Employee>
     {
         public int Id {get; set;}
 
@@ -30,6 +30,31 @@ namespace scheduleNEO.Models
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime UpdatedAt { get; set; }
+
+        public int CompareTo(Employee other)
+        {
+            if(this.TimesAttended == other.TimesAttended)
+            {
+                // Earlier -> same -> later
+                if(DateTime.Compare(this.LastAttended, other.LastAttended) < 0)
+                {
+                    return -1;
+                }
+                else if(DateTime.Compare(this.LastAttended, other.LastAttended) == 0)
+                {
+                    return 0;
+                }else
+                {
+                    return 1;
+                }
+            }else if(this.TimesAttended < other.TimesAttended)
+            {
+                return -1;
+            }
+            else {
+                return 1;
+            }
+        }
 
     }
 }

@@ -31,31 +31,88 @@ namespace scheduleNEO.Controllers
 
         [HttpPost]
         [Route("calculate")]
-        public IActionResult calculate(int attendees)
+        public IActionResult calculate(int attendees, DateTime NEODate)
         {
             // Gets the amount of completers needed
-            int neededCompleters = attendees / 18;
+            int NeededCompleters = attendees / 18;
 
-            List<Employee> attending = new List<Employee>();
+            List<Employee> Attending = new List<Employee>();
 
             // Gets all vendors and adds them to the attending list
-            attending.AddRange(_context.Employees.Where(e => e.IsCela == 0).ToList());
+            Attending.AddRange(_context.Employees.Where(e => e.IsCela == 0).ToList());
 
-            if(neededCompleters <= attending.Count) 
+            // If amount of vendors is enough just invite them
+            if(NeededCompleters <= Attending.Count) 
             {
-                ViewBag.attendees = attending;
+                ViewBag.attendees = Attending;
                 return View("Attending");
-            }else
+            }
+            // Invite CELA if need more people
+            else
             {
                 List<Employee> CELA = _context.Employees.Where(e => e.IsCela != 0)
-                                                        .OrderBy(e=> e.TimesAttended)
-                                                        .ThenBy(e => e.LastAttended)
+                                                        .OrderByDescending(e=> e.TimesAttended)
                                                         .ToList();
+
+                // If OOF remove from list
+                for(int i = CELA.Count - 1; i >= 0; i--)
+                {
+                    if(CELA[i].OOF == 1)
+                    {
+                        CELA.RemoveAt(i);
+                    }
+                }
+                
+                // Adds all of the skippers to attending list until capacity
+                Boolean SkipCheck = true;
+                while(SkipCheck && (Attending.Count < NeededCompleters))
+                {
+                    SkipCheck = false;
+                    Employee Skipper = null;
+                    for(int i = CELA.Count - 1; i >= 0; i--)
+                    {
+                        if(CELA[i].Skipped == 1)
+                        {
+                            SkipCheck = true;
+
+                            if(Skipper == null)
+                            {
+                                Skipper = CELA[i];
+                            }
+                            else
+                            {
+                                if(CELA[i].CompareTo(Skipper) < 0)
+                                {
+                                    Skipper = CELA[i];
+                                }
+                            }
+                        }
+                    }
+                    if(Skipper != null)
+                    {
+                        Attending.Add(Skipper);
+                        CELA.Remove(Skipper);
+                    }
+                }
+                // Adds remaining needed members based on times they have gone
+                while(Attending.Count < NeededCompleters && CELA.Count > 0)
+                {
+                    Employee MinAttended = CELA[0];
+                    for(int i = CELA.Count - 1; i >= 0; i--)
+                    {
+                        if(CELA[i].CompareTo(MinAttended) < 0 && CELA[i].LastAttended >= DateTime.Today.AddDays(-8))
+                        {
+                            MinAttended = CELA[i];
+                        }
+                    }
+                    Attending.Add(MinAttended);
+                    CELA.Remove(MinAttended);
+                }
+
             }
+            ViewBag.attendees = Attending;
             return View("Attending");
         }
 
     }
 }
-//grab all venders
-//do checks
