@@ -31,7 +31,7 @@ namespace scheduleNEO.Controllers
 
         [HttpPost]
         [Route("calculate")]
-        public IActionResult calculate(int attendees, DateTime NEODate)
+        public IActionResult Calculate(int attendees, DateTime NEODate)
         {
             // Gets the amount of completers needed
             int NeededCompleters = attendees / 18;
@@ -97,10 +97,10 @@ namespace scheduleNEO.Controllers
                 // Adds remaining needed members based on times they have gone
                 while(Attending.Count < NeededCompleters && CELA.Count > 0)
                 {
-                    Employee MinAttended = CELA[0];
+                    Employee MinAttended = CELA[CELA.Count - 1];
                     for(int i = CELA.Count - 1; i >= 0; i--)
                     {
-                        if(CELA[i].CompareTo(MinAttended) < 0 && CELA[i].LastAttended >= DateTime.Today.AddDays(-8))
+                        if(CELA[i].CompareTo(MinAttended) < 0 && CELA[i].LastAttended >= NEODate.AddDays(-8))
                         {
                             MinAttended = CELA[i];
                         }
@@ -108,11 +108,9 @@ namespace scheduleNEO.Controllers
                     Attending.Add(MinAttended);
                     CELA.Remove(MinAttended);
                 }
-
             }
             ViewBag.attendees = Attending;
             return View("Attending");
         }
-
     }
 }

@@ -65,5 +65,28 @@ namespace scheduleNEO.Controllers
             }
             return View("NewEmployee");
         }
+
+        [HttpGet]
+        [Route("employeeList")]
+        public IActionResult EmployeeList()
+        {
+            List<Employee> Employees = _context.Employees.ToList();
+            ViewBag.Employees = Employees;
+            return View("EmployeeList");
+        }
+
+        [HttpPost]
+        [Route("update")]
+        public IActionResult Update(int Id)
+        {
+            Employee employee = _context.Employees.Where(e => e.Id == Id).SingleOrDefault();
+
+            employee.TimesAttended++;
+            employee.LastAttended = DateTime.Today;
+            _context.SaveChanges();
+
+
+            return RedirectToAction("EmployeeList");
+        }
     }
 }
