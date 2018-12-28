@@ -19,6 +19,10 @@ namespace scheduleNEO.Models
 
         public int IsCela {get; set;}
 
+        public int IsCelaVendor {get; set;}
+
+        public int IsRobertHalf {get; set;}
+
         public int Skipped {get; set;}
 
         public int OOF {get; set;}

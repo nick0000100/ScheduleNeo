@@ -18,42 +18,44 @@
         <td>@Employee.FirstName</td>
         <td>@Employee.LastName</td>
         <td>@Employee.Alias</td>
-        <td>
-            @if(@Employee.IsCela == 1)
-            {
-                <p>Yes</p>
-            }
-            else
-            {
-                <p>No</p>
-            }
-        </td>
+        @if(@Employee.IsCela == 1)
+        {
+            <td>Yes</td>
+        }
+        else
+        {
+            <td>No</td>
+        }
         <td>@Employee.TimesAttended</td>
         <td>@Employee.LastAttended.ToString("MM-dd-yyyy")</td>
+        @if(@Employee.Skipped == 1)
+        {
+            <td>Yes</td>
+        }
+        else
+        {
+            <td>No</td>
+        }
+        @if(@Employee.OOF == 1)
+        {
+            <td>Yes</td>
+        }
+        else
+        {
+            <td>No</td>
+        }
         <td>
-            @if(@Employee.Skipped == 1)
-            {
-                <p>Yes</p>
-            }
-            else
-            {
-                <p>No</p>
-            }
-        </td>
-        <td>
-            @if(@Employee.OOF == 1)
-            {
-                <p>Yes</p>
-            }
-            else
-            {
-                <p>No</p>
-            }
-        </td>
-        <td>
-            <form action="Update" method="POST">
+            <form action="OOF" method="POST">
                 <input type="hidden" name="Id" value="@Employee.Id">
-                <input type="submit" value="Update they attended last NEO">
+                <input type="submit" value="OOF">
+            </form>
+            <form action="Attended" method="POST">
+                <input type="hidden" name="Id" value="@Employee.Id">
+                <input type="submit" value="Attended">
+            </form>
+            <form action="Skipped" method="POST">
+                <input type="hidden" name="Id" value="@Employee.Id">
+                <input type="submit" value="Skipped">
             </form>
         </td>
     </tr>

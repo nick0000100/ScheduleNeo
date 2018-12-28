@@ -31,7 +31,7 @@ namespace scheduleNEO.Controllers
 
         [HttpPost]
         [Route("addEmployee")]
-        public IActionResult addEmployee(RegisterEmployeeModel NewEmployee, string Cela)
+        public IActionResult addEmployee(RegisterEmployeeModel NewEmployee, string Organization)
         {
             if(ModelState.IsValid)
             {
@@ -41,9 +41,16 @@ namespace scheduleNEO.Controllers
                 if(existing == null) {
 
                     int CelaCheck = 0;
-                    if(Cela == "checked")
+                    int CelaVendorCheck = 0;
+                    int RobertHalfCheck = 0;
+                    if(Organization == "CELA FTE")
                     {
                         CelaCheck = 1;
+                    }else if(Organization == "CELA Vendor")
+                    {
+                        CelaVendorCheck = 1;
+                    }else {
+                        RobertHalfCheck = 1;
                     }
                     
                     Employee NewE = new Employee
@@ -51,7 +58,9 @@ namespace scheduleNEO.Controllers
                         FirstName = NewEmployee.FirstName,
                         LastName = NewEmployee.LastName,
                         Alias = NewEmployee.Alias,
-                        IsCela = CelaCheck
+                        IsCela = CelaCheck,
+                        IsCelaVendor = CelaVendorCheck,
+                        IsRobertHalf = RobertHalfCheck
                     };
 
                     // Addes new employee to db
@@ -76,15 +85,47 @@ namespace scheduleNEO.Controllers
         }
 
         [HttpPost]
-        [Route("update")]
-        public IActionResult Update(int Id)
+        [Route("Attended")]
+        public IActionResult Attended(int Id)
         {
             Employee employee = _context.Employees.Where(e => e.Id == Id).SingleOrDefault();
 
             employee.TimesAttended++;
+            employee.Skipped = 0;
             employee.LastAttended = DateTime.Today;
             _context.SaveChanges();
 
+            return RedirectToAction("EmployeeList");
+        }
+
+        [HttpPost]
+        [Route("OOF")]
+        public IActionResult OOF(int Id)
+        {
+            Employee employee = _context.Employees.Where(e => e.Id == Id).SingleOrDefault();
+            if(employee.OOF == 1)
+            {
+                employee.OOF = 0;
+            }else{
+                employee.OOF = 1;
+            }
+            _context.SaveChanges();
+
+            return RedirectToAction("EmployeeList");
+        }
+
+        [HttpPost]
+        [Route("Skipped")]
+        public IActionResult Skipped(int Id)
+        {
+            Employee employee = _context.Employees.Where(e => e.Id == Id).SingleOrDefault();
+            if(employee.OOF == 1)
+            {
+                employee.Skipped = 0;
+            }else{
+                employee.Skipped = 1;
+            }
+            _context.SaveChanges();
 
             return RedirectToAction("EmployeeList");
         }

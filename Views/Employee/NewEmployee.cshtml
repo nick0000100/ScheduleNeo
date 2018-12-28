@@ -23,11 +23,13 @@
         <input asp-for="LastName"/>
         <label asp-for="Alias"></label>
         <input asp-for="Alias"/>
-        <label for="Cela">Is this person part of CELA?</label>
-        <input type="checkbox" name="Cela"/>
+        <label for="Organization">What organization does this person belong to?</label><br>
+        <label>CELA FTE</label></label><input type="radio" name="Organization" value="CELA FTE">
+        <label>CELA Vendor</label><input type="radio" name="Organization" value="CELA Vendor">
+        <label>Robert Half</label><input type="radio" name="Organization" value="Robert Half">
         <input type="submit" value="Add Employee">
     </fieldset>
 </form>
 
-<input type="button" value="Go to Scheduler" onclick="location.href='@Url.Action("schedule", "Schedule")'" />
-<input type="button" value="List of Employees" onclick="location.href='@Url.Action("action", "controller")'" />
+<!-- <input type="button" value="Go to Scheduler" onclick="location.href='@Url.Action("schedule", "Schedule")'" />
+<input type="button" value="List of Employees" onclick="location.href='@Url.Action("action", "controller")'" /> -->
