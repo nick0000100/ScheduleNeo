@@ -18,6 +18,31 @@ USE `scheduleneodb`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `employees`
+--
+
+DROP TABLE IF EXISTS `employees`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `employees` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `FirstName` varchar(255) DEFAULT NULL,
+  `LastName` varchar(255) DEFAULT NULL,
+  `IsCela` tinyint(4) DEFAULT '0',
+  `Skipped` tinyint(4) DEFAULT '0',
+  `TimesAttended` int(11) DEFAULT '0',
+  `LastAttended` datetime DEFAULT CURRENT_TIMESTAMP,
+  `OOF` tinyint(4) DEFAULT '0',
+  `CreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `UpdatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `Alias` varchar(255) DEFAULT NULL,
+  `IsRobertHalf` tinyint(4) DEFAULT '0',
+  `IsCelaVendor` tinyint(4) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `employees`
 --
 
@@ -26,6 +51,26 @@ LOCK TABLES `employees` WRITE;
 INSERT INTO `employees` VALUES (1,'Nick','Sor',0,1,2,'2018-12-27 00:00:00',0,'2018-12-27 15:16:27','2018-12-27 15:16:27','nisor',1,0),(2,'Bob','Ulmer',1,0,0,'0001-01-01 00:00:00',0,'2018-12-27 16:26:54','2018-12-27 16:26:54','Bobert',0,0);
 /*!40000 ALTER TABLE `employees` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `FirstName` varchar(255) DEFAULT NULL,
+  `LastName` varchar(255) DEFAULT NULL,
+  `UserName` varchar(255) DEFAULT NULL,
+  `Password` varchar(255) DEFAULT NULL,
+  `CreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `UpdatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `Admin` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `users`
@@ -46,4 +91,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-27 18:32:57
+-- Dump completed on 2018-12-27 18:49:07
