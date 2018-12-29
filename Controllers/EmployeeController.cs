@@ -79,7 +79,7 @@ namespace scheduleNEO.Controllers
         [Route("employeeList")]
         public IActionResult EmployeeList()
         {
-            List<Employee> Employees = _context.Employees.ToList();
+            List<Employee> Employees = _context.Employees.OrderBy(e => e.FirstName).ToList();
             ViewBag.Employees = Employees;
             return View("EmployeeList");
         }

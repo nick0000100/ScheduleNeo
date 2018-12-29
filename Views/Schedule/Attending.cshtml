@@ -1,11 +1,14 @@
 <h1>People to Invite</h1>
 
 <table>
-    <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Alias</th>
-    </tr>
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Alias</th>
+        </tr>
+    </thead>
+    <tbody>
 @foreach (var attendee in ViewBag.attendees)
 {
     <tr>
@@ -14,4 +17,5 @@
         <td>@attendee.Alias</td>
     </tr>
 }
+    </tbody>
 </table>

@@ -50,96 +50,33 @@ namespace scheduleNEO.Controllers
             // Invite CELA vendors if need more people
             else
             {
-                Attending.AddRange(CheckCelaVendor(NeededCompleters - Attending.Count, NEODate));
+                List<Employee> CelaVendors = _context.Employees.Where(e => e.IsCelaVendor != 0)
+                                                        .OrderByDescending(e=> e.TimesAttended)
+                                                        .ToList();
+
+                Attending.AddRange(CheckWho(CelaVendors, NeededCompleters - Attending.Count, NEODate));
 
                 // Invite CELA if need more people
                 if(NeededCompleters >= Attending.Count)
                 {
-                    Attending.AddRange(CheckCela(NeededCompleters - Attending.Count, NEODate));
+                    List<Employee> Cela = _context.Employees.Where(e => e.IsCela != 0)
+                                                        .OrderByDescending(e=> e.TimesAttended)
+                                                        .ToList();
+
+                    Attending.AddRange(CheckWho(Cela, NeededCompleters - Attending.Count, NEODate));
                 }
             }
             ViewBag.attendees = Attending;
             return View("Attending");
         }
 
-        // Adds CELA FTEs
-        public List<Employee> CheckCela(int NeededCompleters, DateTime NEODate)
+        // Adds CELAs more people if Robert Half is not enough
+        public List<Employee> CheckWho(List<Employee> EmployeeList, int NeededCompleters, DateTime NEODate)
         {
 
             List<Employee> Attending = new List<Employee>();
 
-            List<Employee> EmployeeList = _context.Employees.Where(e => e.IsCela != 0)
-                                                        .OrderByDescending(e=> e.TimesAttended)
-                                                        .ToList();
-
-            // If OOF remove from list
-            for(int i = EmployeeList.Count - 1; i >= 0; i--)
-            {
-                if(EmployeeList[i].OOF == 1)
-                {
-                    EmployeeList.RemoveAt(i);
-                }
-            }
-            
-            // Adds all of the skippers to attending list until capacity
-            Boolean SkipCheck = true;
-            while(SkipCheck && (Attending.Count < NeededCompleters))
-            {
-                SkipCheck = false;
-                Employee Skipper = null;
-                for(int i = EmployeeList.Count - 1; i >= 0; i--)
-                {
-                    if(EmployeeList[i].Skipped == 1)
-                    {
-                        SkipCheck = true;
-
-                        if(Skipper == null)
-                        {
-                            Skipper = EmployeeList[i];
-                        }
-                        else
-                        {
-                            if(EmployeeList[i].CompareTo(Skipper) < 0)
-                            {
-                                Skipper = EmployeeList[i];
-                            }
-                        }
-                    }
-                }
-                if(Skipper != null)
-                {
-                    Attending.Add(Skipper);
-                    EmployeeList.Remove(Skipper);
-                }
-            }
-            // Adds remaining needed members based on times they have gone
-            while(Attending.Count < NeededCompleters && EmployeeList.Count > 0)
-            {
-                Employee MinAttended = EmployeeList[EmployeeList.Count - 1];
-                for(int i = EmployeeList.Count - 1; i >= 0; i--)
-                {
-                    if(EmployeeList[i].CompareTo(MinAttended) < 0 && EmployeeList[i].LastAttended >= NEODate.AddDays(-8))
-                    {
-                        MinAttended = EmployeeList[i];
-                    }
-                }
-                Attending.Add(MinAttended);
-                EmployeeList.Remove(MinAttended);
-            }
-
-            return Attending;
-
-        }
-
-        // Adds CELA vendors
-        public List<Employee> CheckCelaVendor(int NeededCompleters, DateTime NEODate)
-        {
-
-            List<Employee> Attending = new List<Employee>();
-
-            List<Employee> EmployeeList = _context.Employees.Where(e => e.IsCelaVendor != 0)
-                                                        .OrderByDescending(e=> e.TimesAttended)
-                                                        .ToList();
+            // List<Employee> EmployeeList = OrganizationList;
 
             // If OOF remove from list
             for(int i = EmployeeList.Count - 1; i >= 0; i--)
@@ -201,61 +138,3 @@ namespace scheduleNEO.Controllers
         }
     }
 }
-           //     List<Employee> CELA = _context.Employees.Where(e => e.IsCela != 0)
-            //                                             .OrderByDescending(e=> e.TimesAttended)
-            //                                             .ToList();
-
-            //     // If OOF remove from list
-            //     for(int i = CELA.Count - 1; i >= 0; i--)
-            //     {
-            //         if(CELA[i].OOF == 1)
-            //         {
-            //             CELA.RemoveAt(i);
-            //         }
-            //     }
-                
-            //     // Adds all of the skippers to attending list until capacity
-            //     Boolean SkipCheck = true;
-            //     while(SkipCheck && (Attending.Count < NeededCompleters))
-            //     {
-            //         SkipCheck = false;
-            //         Employee Skipper = null;
-            //         for(int i = CELA.Count - 1; i >= 0; i--)
-            //         {
-            //             if(CELA[i].Skipped == 1)
-            //             {
-            //                 SkipCheck = true;
-
-            //                 if(Skipper == null)
-            //                 {
-            //                     Skipper = CELA[i];
-            //                 }
-            //                 else
-            //                 {
-            //                     if(CELA[i].CompareTo(Skipper) < 0)
-            //                     {
-            //                         Skipper = CELA[i];
-            //                     }
-            //                 }
-            //             }
-            //         }
-            //         if(Skipper != null)
-            //         {
-            //             Attending.Add(Skipper);
-            //             CELA.Remove(Skipper);
-            //         }
-            //     }
-            //     // Adds remaining needed members based on times they have gone
-            //     while(Attending.Count < NeededCompleters && CELA.Count > 0)
-            //     {
-            //         Employee MinAttended = CELA[CELA.Count - 1];
-            //         for(int i = CELA.Count - 1; i >= 0; i--)
-            //         {
-            //             if(CELA[i].CompareTo(MinAttended) < 0 && CELA[i].LastAttended >= NEODate.AddDays(-8))
-            //             {
-            //                 MinAttended = CELA[i];
-            //             }
-            //         }
-            //         Attending.Add(MinAttended);
-            //         CELA.Remove(MinAttended);
-            //     }
