@@ -76,8 +76,6 @@ namespace scheduleNEO.Controllers
 
             List<Employee> Attending = new List<Employee>();
 
-            // List<Employee> EmployeeList = OrganizationList;
-
             // If OOF remove from list
             for(int i = EmployeeList.Count - 1; i >= 0; i--)
             {

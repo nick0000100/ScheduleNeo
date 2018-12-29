@@ -1,4 +1,4 @@
-input[type=text], input[type=number], input[type=date], textarea {
+input[type=text], input[type=number], input[type=date], input[type=password], textarea {
     display: block;
     margin-bottom: 1em;
 }

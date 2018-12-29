@@ -6,7 +6,7 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Alias</th>
-            <th>Cela</th>
+            <th>Organization</th>
             <th>Times Attended</th>
             <th>Last Time Attended</th>
             <th>Skipped</th>
@@ -23,11 +23,15 @@
             <td>@Employee.Alias</td>
             @if(@Employee.IsCela == 1)
             {
-                <td>Yes</td>
+                <td>CELA</td>
+            }
+            else if(@Employee.IsCelaVendor == 1)
+            {
+                <td>Cela Vendor</td>
             }
             else
             {
-                <td>No</td>
+                <td>Robert Half</td>
             }
             <td>@Employee.TimesAttended</td>
             <td>@Employee.LastAttended.ToString("MM-dd-yyyy")</td>
