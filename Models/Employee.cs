@@ -27,7 +27,16 @@ namespace scheduleNEO.Models
 
         public int OOF {get; set;}
 
+        public List<Completers> Completers {get; set;}
+
+        public Employee()
+        {
+            Completers = new List<Completers>();
+        }
+
         public DateTime LastAttended { get; set; }
+        
+        public DateTime TimeShowedUp { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreatedAt { get; set; }

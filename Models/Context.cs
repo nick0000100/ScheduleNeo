@@ -10,5 +10,9 @@ namespace scheduleNEO.Models
 
         public DbSet<Employee> Employees {get;set;}
 
+        public DbSet<Neo> Neos {get;set;}
+
+        public DbSet<Completers> Completers {get;set;}
+
     }
 }
