@@ -27,11 +27,11 @@ namespace scheduleNEO.Models
 
         public int OOF {get; set;}
 
-        public List<Completers> Completers {get; set;}
+        public List<Completer> Completers {get; set;}
 
         public Employee()
         {
-            Completers = new List<Completers>();
+            Completers = new List<Completer>();
         }
 
         public DateTime LastAttended { get; set; }

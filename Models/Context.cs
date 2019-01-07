@@ -12,7 +12,7 @@ namespace scheduleNEO.Models
 
         public DbSet<Neo> Neos {get;set;}
 
-        public DbSet<Completers> Completers {get;set;}
+        public DbSet<Completer> Completers {get;set;}
 
     }
 }

@@ -9,17 +9,19 @@ namespace scheduleNEO.Models
     {
         public int Id {get; set;}
 
+        public int Attendees {get; set;}
+
         public DateTime Date {get; set;}
 
         public int Incompletes {get; set;}
 
         public int NoShows {get; set;}
 
-        public List<Completers> Completers {get; set;}
+        public List<Completer> Completers {get; set;}
 
         public Neo()
         {
-            Completers = new List<Completers>();
+            Completers = new List<Completer>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
