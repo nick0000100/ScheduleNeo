@@ -119,7 +119,7 @@ namespace scheduleNEO.Controllers
         public IActionResult Skipped(int Id)
         {
             Employee employee = _context.Employees.Where(e => e.Id == Id).SingleOrDefault();
-            if(employee.OOF == 1)
+            if(employee.Skipped == 1)
             {
                 employee.Skipped = 0;
             }else{

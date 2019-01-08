@@ -49,7 +49,7 @@ tr:hover {
     border: 2px solid #ddd;
     display: inline-block;
     text-align: center;
-    width: 33%;
+    width: 25%;
     margin: auto;
 }
 
@@ -62,4 +62,8 @@ ul {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
+}
+
+table {
+    width: 100%;
 }

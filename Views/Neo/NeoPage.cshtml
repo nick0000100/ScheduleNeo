@@ -1,5 +1,8 @@
-<h1>All possible completers</h1>
-
+<h1>@ViewBag.Neo.Date.ToString("MMMMM dd/yyyy")'s NEO</h1>
+<h2>Attendees: @ViewBag.Neo.Attendees</h2>
+<h2>No Shows: @ViewBag.Neo.NoShows</h2>
+<h2>Incompletes: @ViewBag.Neo.Incompletes</h2>
+<h2>Invited Completers</h2>
 <table>
     <thead>
         <tr>
@@ -15,7 +18,7 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var Employee in ViewBag.Employees)
+    @foreach (var Employee in ViewBag.Completers)
     {
         <tr>
             <td>@Employee.FirstName</td>
@@ -52,15 +55,15 @@
                 <td>No</td>
             }
             <td>
-                <form action="OOF" method="POST">
+                <form action="../OOF/@ViewBag.Neo.Id" method="POST">
                     <input type="hidden" name="Id" value="@Employee.Id">
                     <input type="submit" value="OOF">
                 </form>
-                <form action="Attended" method="POST">
+                <form action="../Attended/@ViewBag.Neo.Id" method="POST">
                     <input type="hidden" name="Id" value="@Employee.Id">
                     <input type="submit" value="Attended">
                 </form>
-                <form action="Skipped" method="POST">
+                <form action="../Skipped/@ViewBag.Neo.Id" method="POST">
                     <input type="hidden" name="Id" value="@Employee.Id">
                     <input type="submit" value="Skipped">
                 </form>

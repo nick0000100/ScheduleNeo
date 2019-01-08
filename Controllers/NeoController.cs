@@ -28,6 +28,37 @@ namespace scheduleNEO.Controllers
             return View("NewNeo");
         }
 
+        [HttpGet]
+        [Route("allNeos")]
+        public IActionResult showNeos()
+        {
+            List<Neo> Neos = _context.Neos.OrderBy(n => n.Date)
+                                            .Include(n => n.Completers)
+                                            .ToList();
+            ViewBag.Neos = Neos;
+            return View("AllNeos");
+        }
+
+        [HttpGet]
+        [Route("neos/{Id}")]
+        public IActionResult NeoPage(int Id)
+        {
+            Neo Neo = _context.Neos.Where(n => n.Id == Id)
+                                    .Include(n => n.Completers)
+                                        .ThenInclude(c => c.Employee)
+                                    .SingleOrDefault();
+            ViewBag.Neo = Neo;
+            
+            // Puts all people invited into a list (Don't know why I can't access it from Neo in the view)
+            List<Employee> Completers = new List<Employee>();
+            for(int i = 0; i < Neo.Completers.Count; i++)
+            {
+                Completers.Add(_context.Employees.Where(e => e.Id == Neo.Completers[i].EmployeeId).SingleOrDefault());
+            }
+            ViewBag.Completers = Completers;
+            return View();
+        }
+
         // Creates a new NEO and decides who to invite for the NEO
         [HttpPost]
         [Route("calculate")]
@@ -166,5 +197,50 @@ namespace scheduleNEO.Controllers
             return Attending;
         }
 
+        [HttpPost]
+        [Route("Attended/{NeoId}")]
+        public IActionResult Attended(int Id, int NeoId)
+        {
+            Employee employee = _context.Employees.Where(e => e.Id == Id).SingleOrDefault();
+
+            employee.TimesAttended++;
+            employee.Skipped = 0;
+            employee.LastAttended = DateTime.Today;
+            _context.SaveChanges();
+
+            return RedirectToAction("NeoPage", new {Id = NeoId});
+        }
+
+        [HttpPost]
+        [Route("OOF/{NeoId}")]
+        public IActionResult OOF(int Id, int NeoId)
+        {
+            Employee employee = _context.Employees.Where(e => e.Id == Id).SingleOrDefault();
+            if(employee.OOF == 1)
+            {
+                employee.OOF = 0;
+            }else{
+                employee.OOF = 1;
+            }
+            _context.SaveChanges();
+
+            return RedirectToAction("NeoPage", new {Id = NeoId});
+        }
+
+        [HttpPost]
+        [Route("Skipped/{NeoId}")]
+        public IActionResult Skipped(int Id, int NeoId)
+        {
+            Employee employee = _context.Employees.Where(e => e.Id == Id).SingleOrDefault();
+            if(employee.Skipped == 1)
+            {
+                employee.Skipped = 0;
+            }else{
+                employee.Skipped = 1;
+            }
+            _context.SaveChanges();
+
+            return RedirectToAction("NeoPage", new {Id = NeoId});
+        }
     }
 }
