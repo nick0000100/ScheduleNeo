@@ -3,18 +3,18 @@
 <form asp-controller="User" asp-action="Register" method="POST">
     <fieldset>
         <legend>Register</legend>
-        <label asp-for="FirstName"></label>
-        <input asp-for="FirstName"/>
-        <label asp-for="LastName"></label>
-        <input asp-for="LastName"/>
-        <label asp-for="Username"></label>
-        <input asp-for="Username"/>
-        <label asp-for="Password"></label>
-        <input asp-for="Password"/>
-        <label asp-for="PasswordConfirmation"></label>
-        <input asp-for="PasswordConfirmation"/>
-        <label>Admin Code</label>
-        <input type="text" name="AdminCode">
+        <label class="formBlock" asp-for="FirstName"></label>
+        <input class="formBlock" asp-for="FirstName"/>
+        <label class="formBlock" asp-for="LastName"></label>
+        <input class="formBlock" asp-for="LastName"/>
+        <label class="formBlock" asp-for="Username"></label>
+        <input class="formBlock" asp-for="Username"/>
+        <label class="formBlock" asp-for="Password"></label>
+        <input class="formBlock" asp-for="Password"/>
+        <label class="formBlock" asp-for="PasswordConfirmation"></label>
+        <input class="formBlock" asp-for="PasswordConfirmation"/>
+        <label class="formBlock">Admin Code</label>
+        <input class="formBlock" type="text" name="AdminCode">
         <input type="submit" value="Register">
     </fieldset>
 </form>

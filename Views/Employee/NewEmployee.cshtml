@@ -17,12 +17,12 @@
 <form action="addEmployee" method="POST">
     <fieldset>
         <legend>New Employee</legend>
-        <label asp-for="FirstName"></label>
-        <input asp-for="FirstName"/>
-        <label asp-for="LastName"></label>
-        <input asp-for="LastName"/>
-        <label asp-for="Alias"></label>
-        <input asp-for="Alias"/>
+        <label class="formBlock" asp-for="FirstName"></label>
+        <input class="formBlock" asp-for="FirstName"/>
+        <label class="formBlock" asp-for="LastName"></label>
+        <input class="formBlock" asp-for="LastName"/>
+        <label class="formBlock" asp-for="Alias"></label>
+        <input class="formBlock" asp-for="Alias"/>
         <label for="Organization">What organization does this person belong to?</label><br>
         <label>CELA FTE</label></label><input type="radio" name="Organization" value="CELA FTE">
         <label>CELA Vendor</label><input type="radio" name="Organization" value="CELA Vendor">

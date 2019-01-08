@@ -1,7 +1,7 @@
-input[type=text], input[type=number], input[type=date], input[type=password], textarea {
+/* input[type=text], input[type=number], input[type=date], input[type=password], textarea {
     display: block;
     margin-bottom: 1em;
-}
+} */
 
 form {
     display: inline-block;
@@ -58,7 +58,7 @@ tr:hover {
     font-weight: bold;
 }
 
-ul {
+ul, #NeoInfo{
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
@@ -66,4 +66,19 @@ ul {
 
 table {
     width: 100%;
+}
+
+.inline {
+    display: inline-block;
+    width: 12%;
+}
+
+.formBlock {
+    display: block;
+    margin-bottom: 1em;
+}
+
+div>div {
+    display: inline-block;
+    margin: auto;
 }

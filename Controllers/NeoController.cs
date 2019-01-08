@@ -242,5 +242,36 @@ namespace scheduleNEO.Controllers
 
             return RedirectToAction("NeoPage", new {Id = NeoId});
         }
+
+        [HttpPost]
+        [Route("updateAttendees/{NeoId}")]
+        public IActionResult updateAttendees(int attendees, int NeoId)
+        {
+            Neo Neo = _context.Neos.Where(n => n.Id == NeoId).SingleOrDefault();
+            Neo.Attendees = attendees;
+            _context.SaveChanges();
+            return RedirectToAction("NeoPage", new {Id = NeoId});
+        }
+
+        [HttpPost]
+        [Route("updateIncompletes/{NeoId}")]
+        public IActionResult updateIncompletes(int incompletes, int NeoId)
+        {
+            Neo Neo = _context.Neos.Where(n => n.Id == NeoId).SingleOrDefault();
+            Neo.Incompletes = incompletes;
+            _context.SaveChanges();
+            return RedirectToAction("NeoPage", new {Id = NeoId});
+        }
+
+        [HttpPost]
+        [Route("updateNoShows/{NeoId}")]
+        public IActionResult updateNoShows(int noShows, int NeoId)
+        {
+            Neo Neo = _context.Neos.Where(n => n.Id == NeoId).SingleOrDefault();
+            Neo.NoShows = noShows;
+            _context.SaveChanges();
+            return RedirectToAction("NeoPage", new {Id = NeoId});
+        }
+
     }
 }

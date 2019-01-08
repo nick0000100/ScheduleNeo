@@ -52,10 +52,6 @@
                 <td>No</td>
             }
             <td>
-                <form action="OOF" method="POST">
-                    <input type="hidden" name="Id" value="@Employee.Id">
-                    <input type="submit" value="OOF">
-                </form>
                 <form action="Attended" method="POST">
                     <input type="hidden" name="Id" value="@Employee.Id">
                     <input type="submit" value="Attended">
@@ -63,6 +59,10 @@
                 <form action="Skipped" method="POST">
                     <input type="hidden" name="Id" value="@Employee.Id">
                     <input type="submit" value="Skipped">
+                </form>
+                <form action="OOF" method="POST">
+                    <input type="hidden" name="Id" value="@Employee.Id">
+                    <input type="submit" value="OOF">
                 </form>
             </td>
         </tr>

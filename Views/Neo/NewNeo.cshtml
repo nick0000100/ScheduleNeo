@@ -3,10 +3,10 @@
 <form asp-controller="Neo" asp-action="Calculate" method="POST">
     <fieldset>
         <legend>Create a new NEO</legend>
-        <label asp-for="Attendees"></label>
-        <input asp-for="Attendees"/>
-        <label asp-for="Date"></label>
-        <input asp-for="Date"/>
-        <input type="submit" value="Create/Schedule NEO">
+        <label class="formBlock" asp-for="Attendees"></label>
+        <input class="formBlock" asp-for="Attendees"/>
+        <label class="formBlock" asp-for="Date"></label>
+        <input class="formBlock" asp-for="Date"/>
+        <input class="formBlock" type="submit" value="Create/Schedule NEO">
     </fieldset>
 </form>
