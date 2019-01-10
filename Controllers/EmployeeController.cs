@@ -43,7 +43,9 @@ namespace scheduleNEO.Controllers
                     int CelaCheck = 0;
                     int CelaVendorCheck = 0;
                     int RobertHalfCheck = 0;
-                    if(Organization == "CELA FTE")
+                    
+                    // Assigned Organization to new employee
+                    if(Organization == "Attorney" || Organization == "Immigration Specialist" || Organization == "Immigration Specialist")
                     {
                         CelaCheck = 1;
                     }else if(Organization == "CELA Vendor")
@@ -52,7 +54,20 @@ namespace scheduleNEO.Controllers
                     }else {
                         RobertHalfCheck = 1;
                     }
-                    
+
+                    // Assigns job title to new employee if they are CELA FTE
+                    int RoleCheck = 0;
+                    if(CelaCheck == 1)
+                    {
+                        if(Organization == "Attorney")
+                        {
+                            RoleCheck = 2;
+                        }
+                        else if(Organization == "Immigration Specialist")
+                        {
+                            RoleCheck = 1;
+                        }
+                    }
                     Employee NewE = new Employee
                     {
                         FirstName = NewEmployee.FirstName,
@@ -60,6 +75,7 @@ namespace scheduleNEO.Controllers
                         Alias = NewEmployee.Alias,
                         IsCela = CelaCheck,
                         IsCelaVendor = CelaVendorCheck,
+                        Role = RoleCheck,
                         IsRobertHalf = RobertHalfCheck
                     };
 

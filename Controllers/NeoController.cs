@@ -108,7 +108,8 @@ namespace scheduleNEO.Controllers
                     if(NeededCompleters >= Attending.Count)
                     {
                         List<Employee> Cela = _context.Employees.Where(e => e.IsCela != 0)
-                                                            .OrderByDescending(e=> e.TimesAttended)
+                                                            .OrderByDescending(e=> e.Role)
+                                                                .ThenByDescending(e => e.TimesAttended)
                                                             .ToList();
 
                         Attending.AddRange(InviteMore(Cela, NeededCompleters - Attending.Count, CurrentNeo.Date));

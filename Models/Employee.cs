@@ -27,6 +27,8 @@ namespace scheduleNEO.Models
 
         public int OOF {get; set;}
 
+        public int Role {get; set;}
+
         public List<Completer> Completers {get; set;}
 
         public Employee()
