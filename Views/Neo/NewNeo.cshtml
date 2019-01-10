@@ -1,4 +1,9 @@
 @model scheduleNEO.Models.RegisterNeoModel
+
+@{
+    ViewData["Title"] = "Schedule A New NEO";
+}
+
 <div asp-validation-summary="All" class="error"></div>
 <form asp-controller="Neo" asp-action="Calculate" method="POST">
     <fieldset>

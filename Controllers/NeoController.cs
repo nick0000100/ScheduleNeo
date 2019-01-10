@@ -66,6 +66,7 @@ namespace scheduleNEO.Controllers
         {
             if(ModelState.IsValid)
             {
+                ViewBag.date = (DateTime)newNEO.Date;
 
                 // Creates a new Neo
                 Neo NeoNeo = new Neo
@@ -272,6 +273,16 @@ namespace scheduleNEO.Controllers
             Neo.NoShows = noShows;
             _context.SaveChanges();
             return RedirectToAction("NeoPage", new {Id = NeoId});
+        }
+
+        [HttpPost]
+        [Route("Delete/{Id}")]
+        public IActionResult Delete(int Id)
+        {
+            Neo Neo = _context.Neos.Where(n => n.Id == Id).SingleOrDefault();
+            _context.Neos.Remove(Neo);
+            _context.SaveChanges();
+            return RedirectToAction("showNeos");
         }
 
     }
