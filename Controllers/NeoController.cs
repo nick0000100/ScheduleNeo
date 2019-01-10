@@ -108,7 +108,7 @@ namespace scheduleNEO.Controllers
                     if(NeededCompleters >= Attending.Count)
                     {
                         List<Employee> Cela = _context.Employees.Where(e => e.IsCela != 0)
-                                                            .OrderByDescending(e=> e.Role)
+                                                            .OrderBy(e=> e.Role)
                                                                 .ThenByDescending(e => e.TimesAttended)
                                                             .ToList();
 
