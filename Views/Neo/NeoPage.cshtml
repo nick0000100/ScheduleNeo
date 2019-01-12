@@ -5,7 +5,7 @@
 <h1>@ViewBag.Neo.Date.ToString("MMMMM dd/yyyy")'s NEO</h1>
 
 <div id="NeoInfo">
-    <div>
+    <div class="neoControls">
         <h2>Attendees: @ViewBag.Neo.Attendees</h2>
 
         <form action="../updateAttendees/@ViewBag.Neo.Id" method="POST">
@@ -15,7 +15,7 @@
         </form>
     </div>
 
-    <div>
+    <div class="neoControls">
         <h2>Incompletes: @ViewBag.Neo.Incompletes</h2>
 
         <form action="../updateIncompletes/@ViewBag.Neo.Id" method="POST">
@@ -25,13 +25,28 @@
         </form>
     </div>
 
-    <div>
+    <div class="neoControls">
         <h2>No Shows: @ViewBag.Neo.NoShows</h2>
 
         <form action="../updateNoShows/@ViewBag.Neo.Id" method="POST">
             <label for="noShows">Update No Shows:</label>
             <input class="inline" type="number" name="noShows">
             <input type="submit" value="Update">
+        </form>
+    </div>
+
+    <div class="neoControls">
+        <h2>Invite</h2>
+
+        <form action="../inviteMore/@ViewBag.Neo.Id" method="POST">
+            <label for="invite">Update No Shows:</label>
+            <select name="Id">
+                @foreach (var Employee in ViewBag.NotInvited)
+                {
+                    <option value="@Employee.Id">@Employee.FirstName @Employee.LastName</option>
+                }
+            </select>
+            <input type="submit" value="Invite">
         </form>
     </div>
 </div>
@@ -89,7 +104,7 @@
             {
                 <td>No</td>
             }
-            <td>
+            <td class="controls">
                 <form action="../Attended/@ViewBag.Neo.Id" method="POST">
                     <input type="hidden" name="Id" value="@Employee.Id">
                     <input type="submit" value="Attended">
@@ -98,9 +113,13 @@
                     <input type="hidden" name="Id" value="@Employee.Id">
                     <input type="submit" value="Skipped">
                 </form>
-                <form action="../OOF/@ViewBag.Neo.Id" method="POST">
+                <!-- <form action="../OOF/@ViewBag.Neo.Id" method="POST">
                     <input type="hidden" name="Id" value="@Employee.Id">
                     <input type="submit" value="OOF">
+                </form> -->
+                <form action="../Uninvite/@ViewBag.Neo.Id" method="POST">
+                    <input type="hidden" name="Id" value="@Employee.Id">
+                    <input type="submit" value="Uninvite">
                 </form>
             </td>
         </tr>

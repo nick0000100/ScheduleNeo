@@ -7,7 +7,7 @@ namespace scheduleNEO.Models
     public class RegisterNeoModel : BaseEntity
     {
         [Required(ErrorMessage = "Number of Attendees is required")]
-        // [RegularExpression(@"^[0-9]*$", ErrorMessage="Only input numbers.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Attendees must be a positive number.")]
         [Display(Name="Number of Attendees")]
         public int? Attendees {get;set;}
         

@@ -95,7 +95,7 @@ namespace scheduleNEO.Controllers
         [Route("employeeList")]
         public IActionResult EmployeeList()
         {
-            List<Employee> Employees = _context.Employees.OrderBy(e => e.FirstName).ToList();
+            List<Employee> Employees = _context.Employees.OrderBy(e => e.FirstName).Include(e => e.Completers).ThenInclude(c => c.Neo).ToList();
             ViewBag.Employees = Employees;
             return View("EmployeeList");
         }

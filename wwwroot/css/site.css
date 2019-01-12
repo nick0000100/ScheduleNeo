@@ -78,7 +78,12 @@ table {
     margin-bottom: 1em;
 }
 
-div>div {
+.neoControls {
     display: inline-block;
     margin: auto;
+    width: 25%;
+}
+
+.controls {
+    text-align: center;
 }

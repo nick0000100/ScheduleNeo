@@ -55,6 +55,17 @@ namespace scheduleNEO.Controllers
             {
                 Completers.Add(_context.Employees.Where(e => e.Id == Neo.Completers[i].EmployeeId).SingleOrDefault());
             }
+
+            List<Employee> NotInvited = _context.Employees.OrderBy(e => e.FirstName)
+                                                            .ToList();
+            foreach(Employee EE in Completers)
+            {
+                if(NotInvited.Contains(EE))
+                {
+                    NotInvited.Remove(EE);
+                }
+            }
+            ViewBag.NotInvited = NotInvited;
             ViewBag.Completers = Completers;
             return View();
         }
@@ -94,6 +105,7 @@ namespace scheduleNEO.Controllers
                 if(NeededCompleters <= Attending.Count) 
                 {
                     ViewBag.attendees = Attending;
+                    CreateAssociation(Attending, CurrentNeo.Id);
                     return View("Attending");
                 }
                 // Invite CELA vendors if need more people
@@ -117,18 +129,7 @@ namespace scheduleNEO.Controllers
                     }
                 }
 
-                // Creates association with the employees invited and the current NEO
-                foreach(Employee EE in Attending)
-                {
-                    Completer NewCompleter = new Completer
-                    {
-                        NeoId = CurrentNeo.Id,
-                        EmployeeId = EE.Id
-                    };
-                    _context.Completers.Add(NewCompleter);
-                    _context.SaveChanges();
-                }
-
+                CreateAssociation(Attending, CurrentNeo.Id);
                 ViewBag.attendees = Attending;
                 return View("Attending");
             }
@@ -199,6 +200,22 @@ namespace scheduleNEO.Controllers
             return Attending;
         }
 
+        // Creates association between attending employees and NEO.
+        public void CreateAssociation(List<Employee> EmployeeList, int NeoId)
+        {
+            foreach(Employee EE in EmployeeList)
+            {
+                Completer NewCompleter = new Completer
+                {
+                    NeoId = NeoId,
+                    EmployeeId = EE.Id
+                };
+                _context.Completers.Add(NewCompleter);
+                _context.SaveChanges();
+            }
+        }
+
+        // Marks that the employee has attended
         [HttpPost]
         [Route("Attended/{NeoId}")]
         public IActionResult Attended(int Id, int NeoId)
@@ -213,6 +230,7 @@ namespace scheduleNEO.Controllers
             return RedirectToAction("NeoPage", new {Id = NeoId});
         }
 
+        // Marks that the employee is oof
         [HttpPost]
         [Route("OOF/{NeoId}")]
         public IActionResult OOF(int Id, int NeoId)
@@ -229,6 +247,7 @@ namespace scheduleNEO.Controllers
             return RedirectToAction("NeoPage", new {Id = NeoId});
         }
 
+        // Marks that the employee skipped.
         [HttpPost]
         [Route("Skipped/{NeoId}")]
         public IActionResult Skipped(int Id, int NeoId)
@@ -245,6 +264,19 @@ namespace scheduleNEO.Controllers
             return RedirectToAction("NeoPage", new {Id = NeoId});
         }
 
+        // Uninvites an employee
+        [HttpPost]
+        [Route("Uninvite/{NeoId}")]
+        public IActionResult Uninvite(int Id, int NeoId)
+        {
+            Completer completer = _context.Completers.Where(c => c.EmployeeId == Id && c.NeoId == NeoId).SingleOrDefault();
+            _context.Completers.Remove(completer);
+            _context.SaveChanges();
+
+            return RedirectToAction("NeoPage", new {Id = NeoId});
+        }
+
+        // Updates total number of new employees
         [HttpPost]
         [Route("updateAttendees/{NeoId}")]
         public IActionResult updateAttendees(int attendees, int NeoId)
@@ -255,6 +287,7 @@ namespace scheduleNEO.Controllers
             return RedirectToAction("NeoPage", new {Id = NeoId});
         }
 
+        // Updates total incompletes
         [HttpPost]
         [Route("updateIncompletes/{NeoId}")]
         public IActionResult updateIncompletes(int incompletes, int NeoId)
@@ -265,6 +298,7 @@ namespace scheduleNEO.Controllers
             return RedirectToAction("NeoPage", new {Id = NeoId});
         }
 
+        // Updates no shows
         [HttpPost]
         [Route("updateNoShows/{NeoId}")]
         public IActionResult updateNoShows(int noShows, int NeoId)
@@ -275,6 +309,22 @@ namespace scheduleNEO.Controllers
             return RedirectToAction("NeoPage", new {Id = NeoId});
         }
 
+        [HttpPost]
+        [Route("inviteMore/{NeoId}")]
+        public IActionResult inviteMore(int Id, int NeoId)
+        {
+            Employee NewInvited = _context.Employees.Where(e => e.Id == Id).SingleOrDefault();
+            Completer NewCompleter = new Completer
+            {
+                NeoId = NeoId,
+                EmployeeId = NewInvited.Id
+            };
+            _context.Completers.Add(NewCompleter);
+            _context.SaveChanges();
+            return RedirectToAction("NeoPage", new {Id = NeoId});
+        }
+
+        // Deletes a NEO
         [HttpPost]
         [Route("Delete/{Id}")]
         public IActionResult Delete(int Id)
