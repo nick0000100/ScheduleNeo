@@ -49,13 +49,14 @@ namespace scheduleNEO.Controllers
                                     .SingleOrDefault();
             ViewBag.Neo = Neo;
             
-            // Puts all people invited into a list (Don't know why I can't access it from Neo in the view)
+            // Puts all people invited into a list
             List<Employee> Completers = new List<Employee>();
             for(int i = 0; i < Neo.Completers.Count; i++)
             {
                 Completers.Add(_context.Employees.Where(e => e.Id == Neo.Completers[i].EmployeeId).SingleOrDefault());
             }
 
+            // Gets list of people not invited -- Could probably do this with the list of compelters taken from Neo object.
             List<Employee> NotInvited = _context.Employees.OrderBy(e => e.FirstName)
                                                             .ToList();
             foreach(Employee EE in Completers)
@@ -66,7 +67,6 @@ namespace scheduleNEO.Controllers
                 }
             }
             ViewBag.NotInvited = NotInvited;
-            ViewBag.Completers = Completers;
             return View();
         }
 
@@ -108,9 +108,9 @@ namespace scheduleNEO.Controllers
                     CreateAssociation(Attending, CurrentNeo.Id);
                     return View("Attending");
                 }
-                // Invite CELA vendors if need more people
                 else
                 {
+                    // Invite CELA vendors if need more people
                     List<Employee> CelaVendors = _context.Employees.Where(e => e.IsCelaVendor != 0)
                                                             .OrderByDescending(e=> e.TimesAttended)
                                                             .ToList();
@@ -139,7 +139,6 @@ namespace scheduleNEO.Controllers
         // Adds more people from specified organization if Robert Half is not enough
         public List<Employee> InviteMore(List<Employee> EmployeeList, int NeededCompleters, DateTime NEODate)
         {
-
             List<Employee> Attending = new List<Employee>();
 
             // If OOF remove from list
@@ -225,6 +224,10 @@ namespace scheduleNEO.Controllers
             employee.TimesAttended++;
             employee.Skipped = 0;
             employee.LastAttended = DateTime.Today;
+
+            Completer completer = _context.Completers.Where(c => c.EmployeeId == Id && c.NeoId == NeoId).SingleOrDefault();
+            completer.AttendedTime = DateTime.Now;
+
             _context.SaveChanges();
 
             return RedirectToAction("NeoPage", new {Id = NeoId});

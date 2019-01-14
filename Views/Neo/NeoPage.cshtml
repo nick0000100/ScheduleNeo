@@ -61,24 +61,24 @@
             <th>Alias</th>
             <th>Organization</th>
             <th>Times Attended</th>
-            <th>Last Time Attended</th>
+            <th>Time Showed Up</th>
             <th>Skipped</th>
             <th>OOF</th>
             <th>Update</th>
         </tr>
     </thead>
     <tbody>
-    @foreach (var Employee in ViewBag.Completers)
+    @foreach (var Completer in ViewBag.Neo.Completers)
     {
         <tr>
-            <td>@Employee.FirstName</td>
-            <td>@Employee.LastName</td>
-            <td>@Employee.Alias</td>
-            @if(@Employee.IsCela == 1)
+            <td>@Completer.Employee.FirstName</td>
+            <td>@Completer.Employee.LastName</td>
+            <td>@Completer.Employee.Alias</td>
+            @if(@Completer.Employee.IsCela == 1)
             {
                 <td>CELA</td>
             }
-            else if(@Employee.IsCelaVendor == 1)
+            else if(@Completer.Employee.IsCelaVendor == 1)
             {
                 <td>Cela Vendor</td>
             }
@@ -86,9 +86,9 @@
             {
                 <td>Robert Half</td>
             }
-            <td>@Employee.TimesAttended</td>
-            <td>@Employee.LastAttended.ToString("MMMMM dd/yyyy")</td>
-            @if(@Employee.Skipped == 1)
+            <td>@Completer.Employee.TimesAttended</td>
+            <td>@Completer.AttendedTime.ToString("h:mm tt")</td>
+            @if(@Completer.Employee.Skipped == 1)
             {
                 <td>Yes</td>
             }
@@ -96,7 +96,7 @@
             {
                 <td>No</td>
             }
-            @if(@Employee.OOF == 1)
+            @if(@Completer.Employee.OOF == 1)
             {
                 <td>Yes</td>
             }
@@ -106,19 +106,15 @@
             }
             <td class="controls">
                 <form action="../Attended/@ViewBag.Neo.Id" method="POST">
-                    <input type="hidden" name="Id" value="@Employee.Id">
+                    <input type="hidden" name="Id" value="@Completer.Employee.Id">
                     <input type="submit" value="Attended">
                 </form>
                 <form action="../Skipped/@ViewBag.Neo.Id" method="POST">
-                    <input type="hidden" name="Id" value="@Employee.Id">
+                    <input type="hidden" name="Id" value="@Completer.Employee.Id">
                     <input type="submit" value="Skipped">
                 </form>
-                <!-- <form action="../OOF/@ViewBag.Neo.Id" method="POST">
-                    <input type="hidden" name="Id" value="@Employee.Id">
-                    <input type="submit" value="OOF">
-                </form> -->
                 <form action="../Uninvite/@ViewBag.Neo.Id" method="POST">
-                    <input type="hidden" name="Id" value="@Employee.Id">
+                    <input type="hidden" name="Id" value="@Completer.Employee.Id">
                     <input type="submit" value="Uninvite">
                 </form>
             </td>
