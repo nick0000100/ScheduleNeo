@@ -106,7 +106,7 @@ namespace scheduleNEO.Controllers
                 {
                     ViewBag.attendees = Attending;
                     CreateAssociation(Attending, CurrentNeo.Id);
-                    return View("Attending");
+                    return RedirectToAction("NeoPage", new {Id = CurrentNeo.Id});
                 }
                 else
                 {
@@ -131,7 +131,7 @@ namespace scheduleNEO.Controllers
 
                 CreateAssociation(Attending, CurrentNeo.Id);
                 ViewBag.attendees = Attending;
-                return View("Attending");
+                return RedirectToAction("NeoPage", new {Id = CurrentNeo.Id});
             }
             return View("NewNeo");
         }
