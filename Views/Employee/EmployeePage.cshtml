@@ -1,0 +1,51 @@
+@{
+    ViewData["Title"] = $"{@ViewBag.Employee.FirstName} {@ViewBag.Employee.LastName}";
+}
+<h1>@ViewBag.Employee.FirstName @ViewBag.Employee.LastName</h1>
+<form action="/deleteEmployee/@ViewBag.Employee.Id" method="POST">
+    <input type="hidden" name="Id" value="@ViewBag.Employee.Id">
+    <input class="deleteEE" type="submit" value="Remove Employee">
+</form>
+
+<div id="NeoInfo">
+    <div class="neoControls">
+        <h2>Neos Invited To: @ViewBag.Employee.Completers.Count</h2>
+    </div>
+    <div class="neoControls">
+        <h2>Neos Attended: @ViewBag.Attened</h2>
+    </div>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Neo Date</th>
+            <th>Attended?</th>
+            <th>Arrival Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Completer in ViewBag.Employee.Completers)
+        {
+            <tr>
+                <td><a href="/neos/@Completer.Neo.Id">@Completer.Neo.Date.ToString("MMMMM dd/yyyy")</a></td>
+                @if(@Completer.Attended == 1)
+                {
+                    <td>Yes</td>
+                }
+                else
+                {
+                    <td>No</td>
+                }
+                @if(@Completer.AttendedTime.ToString("HH:mm tt").Contains("00:00"))
+                {
+                    <td>N/A</td>
+                }
+                else
+                {
+                <td>@Completer.AttendedTime.ToString("h:mm tt")</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

@@ -260,6 +260,7 @@ namespace scheduleNEO.Controllers
 
             Completer completer = _context.Completers.Where(c => c.EmployeeId == Id && c.NeoId == NeoId).SingleOrDefault();
             completer.AttendedTime = DateTime.Now;
+            completer.Attended = 1;
 
             _context.SaveChanges();
 

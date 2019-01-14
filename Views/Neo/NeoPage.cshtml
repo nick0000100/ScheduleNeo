@@ -43,6 +43,7 @@
             <select name="Id">
                 @foreach (var Employee in ViewBag.NotInvited)
                 {
+                    <option value="" selected disabled hidden>Invite another employee</option>
                     <option value="@Employee.Id">@Employee.FirstName @Employee.LastName</option>
                 }
             </select>
@@ -56,8 +57,7 @@
 <table>
     <thead>
         <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>Employee Name</th>
             <th>Alias</th>
             <th>Organization</th>
             <th>Times Attended</th>
@@ -71,8 +71,7 @@
     @foreach (var Completer in ViewBag.Neo.Completers)
     {
         <tr>
-            <td>@Completer.Employee.FirstName</td>
-            <td>@Completer.Employee.LastName</td>
+            <td><a href="../employee/@Completer.Employee.Id">@Completer.Employee.FirstName @Completer.Employee.LastName</a></td>
             <td>@Completer.Employee.Alias</td>
             @if(@Completer.Employee.IsCela == 1)
             {
@@ -87,7 +86,14 @@
                 <td>Robert Half</td>
             }
             <td>@Completer.Employee.TimesAttended</td>
+            @if(@Completer.AttendedTime.ToString("HH:mm tt").Contains("00:00"))
+            {
+                <td>N/A</td>
+            }
+            else
+            {
             <td>@Completer.AttendedTime.ToString("h:mm tt")</td>
+            }
             @if(@Completer.Employee.Skipped == 1)
             {
                 <td>Yes</td>

@@ -88,6 +88,7 @@ namespace scheduleNEO.Controllers
                     TempData["Error"] = "An employee with the same alias already exists.";
                 }
             }
+            // ModelState.Clear();
             return View("NewEmployee");
         }
 
@@ -112,6 +113,19 @@ namespace scheduleNEO.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("EmployeeList");
+        }
+
+        [HttpGet]
+        [Route("employee/{Id}")]
+        public IActionResult EmployeePage(int Id)
+        {
+            Employee Employee = _context.Employees.Where(e => e.Id == Id)
+                                                    .Include(e => e.Completers)
+                                                        .ThenInclude(c => c.Neo)
+                                                    .SingleOrDefault();
+            ViewBag.Attened = Employee.Completers.Where(c => c.Attended == 1).Count();
+            ViewBag.Employee = Employee;
+            return View();
         }
 
         [HttpPost]
@@ -141,6 +155,17 @@ namespace scheduleNEO.Controllers
             }else{
                 employee.Skipped = 1;
             }
+            _context.SaveChanges();
+
+            return RedirectToAction("EmployeeList");
+        }
+
+        [HttpPost]
+        [Route("deleteEmployee/{Id}")]
+        public IActionResult Delete(int Id)
+        {
+            Employee employee = _context.Employees.Where(e => e.Id == Id).SingleOrDefault();
+            _context.Employees.Remove(employee);
             _context.SaveChanges();
 
             return RedirectToAction("EmployeeList");

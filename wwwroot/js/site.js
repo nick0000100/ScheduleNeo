@@ -6,3 +6,11 @@ $(".delete").click(function(event) {
         event.preventDefault();
     }
 });
+
+$(".deleteEE").click(function(event) {
+    let check = confirm("Are you sure you want to delete this employee?");
+    if(!check)
+    {
+        event.preventDefault();
+    }
+});

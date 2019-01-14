@@ -17,5 +17,6 @@ namespace scheduleNEO.Models
 
         public DateTime AttendedTime {get; set;}
 
+        public int Attended {get; set;}
     }
 }

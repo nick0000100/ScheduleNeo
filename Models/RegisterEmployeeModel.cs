@@ -21,6 +21,10 @@ namespace scheduleNEO.Models
         [Required]
         [Display(Name="Alias")]
         public string Alias {get; set;}
+        
+        [Required]
+        [Display(Name="Organization")]
+        public string Organization {get; set;}
 
     }
 }

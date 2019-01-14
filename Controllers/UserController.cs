@@ -81,6 +81,7 @@ namespace scheduleNEO.Controllers
                     TempData["Error"] = "A user with that username already exists.";
                 }
             }
+            ModelState.Clear();
             return View("Index");
         }
 
@@ -102,6 +103,7 @@ namespace scheduleNEO.Controllers
                 }
             }
             TempData["Error"] = "Incorrect login information.";
+            ModelState.Clear();
             return RedirectToAction("Index");
         }
 
