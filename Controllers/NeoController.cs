@@ -112,7 +112,7 @@ namespace scheduleNEO.Controllers
                 {
                     // Invite CELA vendors if need more people
                     List<Employee> CelaVendors = _context.Employees.Where(e => e.IsCelaVendor != 0)
-                                                            .OrderByDescending(e=> e.TimesAttended)
+                                                            .OrderByDescending(e => e.TimesAttended)
                                                             .ToList();
 
                     Attending.AddRange(InviteMore(CelaVendors, NeededCompleters - Attending.Count, CurrentNeo.Date));
@@ -181,13 +181,32 @@ namespace scheduleNEO.Controllers
                     EmployeeList.Remove(Skipper);
                 }
             }
+
+            // Removes people that attended the last NEO to be added to the invitee list if needed later on -- Skip and Take not working as intended
+            List<Neo> AllNeos = _context.Neos.OrderBy(n => n.Id).ToList();
+            List<Employee> AttendedLastNeo = new List<Employee>();
+
+            if(AllNeos.Count >= 2)
+            {
+                Neo LastNeo = AllNeos[AllNeos.Count - 2];
+
+                for(int i = EmployeeList.Count - 1; i >= 0; i--)
+                {
+                    if(EmployeeList[i].LastAttended.Date == LastNeo.Date.Date)
+                    {
+                        AttendedLastNeo.Add(EmployeeList[i]);
+                        EmployeeList.RemoveAt(i);
+                    }
+                }
+            }
+
             // Adds remaining needed members based on times they have gone
             while(Attending.Count < NeededCompleters && EmployeeList.Count > 0)
             {
                 Employee MinAttended = EmployeeList[EmployeeList.Count - 1];
                 for(int i = EmployeeList.Count - 1; i >= 0; i--)
                 {
-                    if(EmployeeList[i].CompareTo(MinAttended) < 0 && EmployeeList[i].LastAttended >= NEODate.AddDays(-8))
+                    if(EmployeeList[i].CompareTo(MinAttended) < 0)
                     {
                         MinAttended = EmployeeList[i];
                     }
@@ -196,6 +215,20 @@ namespace scheduleNEO.Controllers
                 EmployeeList.Remove(MinAttended);
             }
 
+            // Adds all of the people who attended last week
+            while(Attending.Count < NeededCompleters && AttendedLastNeo.Count > 0)
+            {
+                Employee MinAttended = AttendedLastNeo[AttendedLastNeo.Count - 1];
+                for(int i = AttendedLastNeo.Count - 1; i >= 0; i--)
+                {
+                    if(AttendedLastNeo[i].CompareTo(MinAttended) < 0)
+                    {
+                        MinAttended = AttendedLastNeo[i];
+                    }
+                }
+                Attending.Add(MinAttended);
+                AttendedLastNeo.Remove(MinAttended);
+            }
             return Attending;
         }
 
