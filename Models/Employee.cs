@@ -48,21 +48,21 @@ namespace scheduleNEO.Models
 
         public int CompareTo(Employee other)
         {
-            if(this.TimesAttended == other.TimesAttended)
+            if(this.LastAttended.Date == other.LastAttended.Date)
             {
                 // Earlier -> same -> later
-                if(DateTime.Compare(this.LastAttended, other.LastAttended) < 0)
+                if(DateTime.Compare(this.LastAttended.Date, other.LastAttended.Date) < 0)
                 {
                     return -1;
                 }
-                else if(DateTime.Compare(this.LastAttended, other.LastAttended) == 0)
+                else if(DateTime.Compare(this.LastAttended.Date, other.LastAttended.Date) == 0)
                 {
                     return 0;
                 }else
                 {
                     return 1;
                 }
-            }else if(this.TimesAttended < other.TimesAttended)
+            }else if(this.LastAttended.Date < other.LastAttended.Date)
             {
                 return -1;
             }
@@ -70,6 +70,33 @@ namespace scheduleNEO.Models
                 return 1;
             }
         }
+
+        // Times attended
+
+        // public int CompareTo(Employee other)
+        // {
+        //     if(this.TimesAttended == other.TimesAttended)
+        //     {
+        //         // Earlier -> same -> later
+        //         if(DateTime.Compare(this.LastAttended, other.LastAttended) < 0)
+        //         {
+        //             return -1;
+        //         }
+        //         else if(DateTime.Compare(this.LastAttended, other.LastAttended) == 0)
+        //         {
+        //             return 0;
+        //         }else
+        //         {
+        //             return 1;
+        //         }
+        //     }else if(this.TimesAttended < other.TimesAttended)
+        //     {
+        //         return -1;
+        //     }
+        //     else {
+        //         return 1;
+        //     }
+        // }
 
     }
 }

@@ -112,7 +112,7 @@ namespace scheduleNEO.Controllers
                 {
                     // Invite CELA vendors if need more people
                     List<Employee> CelaVendors = _context.Employees.Where(e => e.IsCelaVendor != 0)
-                                                            .OrderByDescending(e => e.TimesAttended)
+                                                            .OrderBy(e => e.LastAttended.Date)
                                                             .ToList();
 
                     Attending.AddRange(InviteMore(CelaVendors, NeededCompleters - Attending.Count, CurrentNeo.Date));
@@ -121,8 +121,7 @@ namespace scheduleNEO.Controllers
                     if(NeededCompleters >= Attending.Count)
                     {
                         List<Employee> Cela = _context.Employees.Where(e => e.IsCela != 0)
-                                                            .OrderBy(e=> e.Role)
-                                                                .ThenByDescending(e => e.TimesAttended)
+                                                            .OrderBy(e => e.LastAttended.Date)
                                                             .ToList();
 
                         Attending.AddRange(InviteMore(Cela, NeededCompleters - Attending.Count, CurrentNeo.Date));
