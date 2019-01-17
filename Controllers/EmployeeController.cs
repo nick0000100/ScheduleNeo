@@ -126,6 +126,8 @@ namespace scheduleNEO.Controllers
                                                     .SingleOrDefault();
             ViewBag.Attened = Employee.Completers.Where(c => c.Attended == 1).Count();
             ViewBag.Employee = Employee;
+
+            ViewBag.Notes = _context.Notes.Where(n => n.EmployeeId == Id).ToList();
             return View();
         }
 

@@ -7,6 +7,29 @@
     <input class="deleteEE" type="submit" value="Remove Employee">
 </form>
 
+
+<div id="NoteArea">
+    <form asp-controller="Note" asp-action="AddNote" asp-route-id="@ViewBag.Employee.Id method="POST">
+        <input type="hidden" name="Id" value="@ViewBag.Employee.Id">
+        <textarea rows="5" name="NoteContent">Add Note...</textarea>
+        <input type="submit" value="Add Note">
+    </form>
+    <div>
+        @foreach(var Note in ViewBag.Notes)
+        {
+            <div class="Note">
+                <p>@Note.NoteMessage @Note.CreatedAt.ToString("MMMMM dd, yyyy")</p>
+                <form asp-controller="Note" asp-action="DeleteNote" asp-route-id="@ViewBag.Employee.Id method="POST">
+                    <input type="hidden" name="EmployeeId" value="@ViewBag.Employee.Id">
+                    <input type="hidden" name="NoteId" value="@Note.Id">
+                    <input type="submit" value="Delete Note">
+                </form>
+            </div>
+        }
+    </div>
+</div>
+
+
 <div id="NeoInfo">
     <div class="neoControls">
         <h2>NEOs Invited To: @ViewBag.Employee.Completers.Count</h2>
