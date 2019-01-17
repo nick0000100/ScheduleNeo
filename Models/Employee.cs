@@ -31,9 +31,12 @@ namespace scheduleNEO.Models
 
         public List<Completer> Completers {get; set;}
 
+        public List<Note> Notes {get; set;}
+
         public Employee()
         {
             Completers = new List<Completer>();
+            Notes = new List<Note>();
         }
 
         public DateTime LastAttended { get; set; }

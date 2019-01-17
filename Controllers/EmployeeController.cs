@@ -101,6 +101,7 @@ namespace scheduleNEO.Controllers
             return View("EmployeeList");
         }
 
+        // Never used
         [HttpPost]
         [Route("Attended")]
         public IActionResult Attended(int Id)
@@ -144,6 +145,7 @@ namespace scheduleNEO.Controllers
             return RedirectToAction("EmployeeList");
         }
 
+        // Never used
         [HttpPost]
         [Route("Skipped")]
         public IActionResult Skipped(int Id)

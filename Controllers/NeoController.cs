@@ -286,7 +286,7 @@ namespace scheduleNEO.Controllers
         // Marks that the employee skipped.
         [HttpPost]
         [Route("Skipped/{NeoId}")]
-        public IActionResult Skipped(int Id, int NeoId)
+        public IActionResult Skipped(int Id, int NeoId, int CompleterId)
         {
             Employee employee = _context.Employees.Where(e => e.Id == Id).SingleOrDefault();
             if(employee.Skipped == 1)
@@ -296,6 +296,7 @@ namespace scheduleNEO.Controllers
                 employee.Skipped = 1;
             }
             _context.SaveChanges();
+            ResetAttendedNeo(Id, NeoId, CompleterId);
 
             return RedirectToAction("NeoPage", new {Id = NeoId});
         }
@@ -303,8 +304,9 @@ namespace scheduleNEO.Controllers
         // Uninvites an employee
         [HttpPost]
         [Route("Uninvite/{NeoId}")]
-        public IActionResult Uninvite(int Id, int NeoId)
+        public IActionResult Uninvite(int Id, int NeoId, int CompleterId)
         {
+            ResetAttendedNeo(Id, NeoId, CompleterId);
             Completer completer = _context.Completers.Where(c => c.EmployeeId == Id && c.NeoId == NeoId).SingleOrDefault();
             _context.Completers.Remove(completer);
             _context.SaveChanges();
@@ -369,6 +371,20 @@ namespace scheduleNEO.Controllers
             _context.Neos.Remove(Neo);
             _context.SaveChanges();
             return RedirectToAction("showNeos");
+        }
+
+        // Resets time showed up and times attended
+        public void ResetAttendedNeo(int EmployeeId, int NeoId, int CompleterId)
+        {
+            Employee employee = _context.Employees.Where(e => e.Id == EmployeeId).SingleOrDefault();
+            Completer completer = _context.Completers.Where(c => c.Id == CompleterId).SingleOrDefault();
+            if(completer.AttendedTime.TimeOfDay != TimeSpan.Zero)
+            {
+                employee.TimesAttended--;
+                completer.Attended = 0;
+                completer.AttendedTime = default(DateTime);
+            }
+            _context.SaveChanges();
         }
 
     }

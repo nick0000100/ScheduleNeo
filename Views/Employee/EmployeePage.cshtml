@@ -28,7 +28,7 @@
         @foreach (var Completer in ViewBag.Employee.Completers)
         {
             <tr>
-                <td><a href="/neos/@Completer.Neo.Id">@Completer.Neo.Date.ToString("MMMMM dd/yyyy")</a></td>
+                <td><a href="/neos/@Completer.Neo.Id">@Completer.Neo.Date.ToString("MMMMM dd, yyyy")</a></td>
                 @if(@Completer.Attended == 1)
                 {
                     <td>Yes</td>
@@ -37,7 +37,7 @@
                 {
                     <td>No</td>
                 }
-                @if(@Completer.AttendedTime.ToString("HH:mm tt").Contains("00:00"))
+                @if(@Completer.AttendedTime.TimeOfDay == TimeSpan.Zero)
                 {
                     <td>N/A</td>
                 }

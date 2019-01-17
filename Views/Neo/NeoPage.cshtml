@@ -1,8 +1,8 @@
 @{
-    ViewData["Title"] = $"{@ViewBag.Neo.Date.ToString("MMMMM dd/yyyy")}'s NEO";
+    ViewData["Title"] = $"{@ViewBag.Neo.Date.ToString("MMMMM dd, yyyy")}'s NEO";
 }
 
-<h1>@ViewBag.Neo.Date.ToString("MMMMM dd/yyyy")'s NEO</h1>
+<h1>@ViewBag.Neo.Date.ToString("MMMMM dd, yyyy")'s NEO</h1>
 
 <div id="NeoInfo">
     <div class="neoControls">
@@ -86,7 +86,7 @@
                 <td>Robert Half</td>
             }
             <td>@Completer.Employee.TimesAttended</td>
-            @if(@Completer.AttendedTime.ToString("HH:mm tt").Contains("00:00"))
+            @if(@Completer.AttendedTime.TimeOfDay == TimeSpan.Zero)
             {
                 <td>N/A</td>
             }
@@ -113,14 +113,23 @@
             <td class="controls">
                 <form action="../Attended/@ViewBag.Neo.Id" method="POST">
                     <input type="hidden" name="Id" value="@Completer.Employee.Id">
-                    <input type="submit" value="Attended">
+                    @if(@Completer.AttendedTime.TimeOfDay == TimeSpan.Zero)
+                    {
+                        <input type="submit" value="Attended">
+                    }
+                    else
+                    {
+                        <input type="submit" value="Attended" disabled="disabled">
+                    }
                 </form>
                 <form action="../Skipped/@ViewBag.Neo.Id" method="POST">
                     <input type="hidden" name="Id" value="@Completer.Employee.Id">
+                    <input type="hidden" name="CompleterId" value="@Completer.Id">
                     <input type="submit" value="Skipped">
                 </form>
                 <form action="../Uninvite/@ViewBag.Neo.Id" method="POST">
                     <input type="hidden" name="Id" value="@Completer.Employee.Id">
+                    <input type="hidden" name="CompleterId" value="@Completer.Id">
                     <input type="submit" value="Uninvite">
                 </form>
             </td>

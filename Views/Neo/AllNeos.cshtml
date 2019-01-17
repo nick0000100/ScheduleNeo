@@ -19,7 +19,7 @@
     @foreach (var Neo in ViewBag.Neos)
     {
         <tr>
-            <td><a href="neos/@Neo.Id">@Neo.Date.ToString("MMMMM dd/yyyy")</a></td>
+            <td><a href="neos/@Neo.Id">@Neo.Date.ToString("MMMMM dd, yyyy")</a></td>
             <td>@Neo.Attendees</td>
             <td>@Neo.Completers.Count</td>
             <td>@Neo.Incompletes</td>

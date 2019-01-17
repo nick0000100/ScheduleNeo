@@ -38,7 +38,7 @@
             }
             <td>@Employee.Completers.Count</td>
             <td>@Employee.TimesAttended</td>
-            <td>@Employee.LastAttended.ToString("MMMMM dd/yyyy")</td>
+            <td>@Employee.LastAttended.ToString("MMMMM dd, yyyy")</td>
             @if(@Employee.Skipped == 1)
             {
                 <td>Yes</td>

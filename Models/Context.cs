@@ -14,5 +14,7 @@ namespace scheduleNEO.Models
 
         public DbSet<Completer> Completers {get;set;}
 
+        public DbSet<Note> Note {get;set;}
+
     }
 }
