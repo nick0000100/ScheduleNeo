@@ -4,6 +4,11 @@
 
 <h1>All NEOs</h1>
 
+    @if(TempData["AccessError"] != null)
+    {
+        <p class="error">@TempData["AccessError"]</p>
+    }
+
 <table>
     <thead>
         <tr>
@@ -12,7 +17,10 @@
             <th>Invited</th>
             <th>Incompletes</th>
             <th>No Shows</th>
-            <th>Delete</th>
+            @if(@ViewBag.Admin == true)
+            {
+                <th>Delete</th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -24,11 +32,14 @@
             <td>@Neo.Completers.Count</td>
             <td>@Neo.Incompletes</td>
             <td>@Neo.NoShows</td>
-            <td class="controls">
-                <form action="Delete/@Neo.Id" method="POST">
-                    <input class="delete" type="submit" value="Delete">
-                </form>
-            </td>
+            @if(@ViewBag.Admin == true)
+            {
+                <td class="controls">
+                    <form action="Delete/@Neo.Id" method="POST">
+                        <input class="delete" type="submit" value="Delete">
+                    </form>
+                </td>
+            }
         </tr>
     }
     </tbody>

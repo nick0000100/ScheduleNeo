@@ -2,10 +2,13 @@
     ViewData["Title"] = $"{@ViewBag.Employee.FirstName} {@ViewBag.Employee.LastName}";
 }
 <h1>@ViewBag.Employee.FirstName @ViewBag.Employee.LastName</h1>
-<form action="/deleteEmployee/@ViewBag.Employee.Id" method="POST">
-    <input type="hidden" name="Id" value="@ViewBag.Employee.Id">
-    <input class="deleteEE" type="submit" value="Remove Employee">
-</form>
+@if(@ViewBag.Admin == true)
+{
+    <form action="/deleteEmployee/@ViewBag.Employee.Id" method="POST">
+        <input type="hidden" name="Id" value="@ViewBag.Employee.Id">
+        <input class="deleteEE" type="submit" value="Remove Employee">
+    </form>
+}
 
 
 <div id="NeoInfo">
@@ -54,11 +57,14 @@
 <h2>Notes</h2>
 <div id="NoteArea">
 
-    <form asp-controller="Note" asp-action="AddNote" asp-route-id="@ViewBag.Employee.Id method="POST">
-        <input type="hidden" name="Id" value="@ViewBag.Employee.Id">
-        <textarea rows="7" cols="70" name="NoteContent">Add Note...</textarea>
-        <input type="submit" value="Add Note">
-    </form>
+    @if(@ViewBag.Admin == true)
+    {
+        <form asp-controller="Note" asp-action="AddNote" asp-route-id="@ViewBag.Employee.Id method="POST">
+            <input type="hidden" name="Id" value="@ViewBag.Employee.Id">
+            <textarea rows="7" cols="70" name="NoteContent">Add Note...</textarea>
+            <input type="submit" value="Add Note">
+        </form>
+    }
     @foreach(var Note in ViewBag.Notes)
     {
         <div class="Note">

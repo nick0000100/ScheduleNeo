@@ -1,12 +1,6 @@
 <form action="Login" method="POST" class="SideBySide">
     <fieldset>
         <legend>Login</legend>
-        @{
-            if(TempData["Error"] != null)
-            {
-                <p class="error">@TempData["Error"]</p>
-            }
-        }
         <label class="formBlock">Username:</label><input type="text" name="Username">
         <label class="formBlock">Password:</label><input type="password" name="Password">
         <input class="formBlock" type="submit" value="Login">

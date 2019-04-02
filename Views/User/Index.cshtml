@@ -8,6 +8,14 @@
     {
         <p class="error">@TempData["LoginError"]</p>
     }
+    if(TempData["Error"] != null)
+    {
+        <p class="error">@TempData["Error"]</p>
+    }
+    if(TempData["Success"] != null)
+    {
+        <p class="success">@TempData["Success"]</p>
+    }
 }
 @Html.Partial("_RegisterPartial")
 @Html.Partial("_LoginPartial")

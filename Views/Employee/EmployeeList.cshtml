@@ -15,7 +15,10 @@
             <th>Last Time Attended</th>
             <th>Skipped</th>
             <th>OOF</th>
-            <th>Update</th>
+            @if(@ViewBag.Admin == true)
+            {
+                <th>Update</th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -55,12 +58,15 @@
             {
                 <td>No</td>
             }
-            <td class="controls">
-                <form action="OOF" method="POST">
-                    <input type="hidden" name="Id" value="@Employee.Id">
-                    <input type="submit" value="OOF">
-                </form>
-            </td>
+            @if(@ViewBag.Admin == true)
+            {
+                <td class="controls">
+                    <form action="OOF" method="POST">
+                        <input type="hidden" name="Id" value="@Employee.Id">
+                        <input type="submit" value="OOF">
+                    </form>
+                </td>
+            }
         </tr>
     }
     </tbody>

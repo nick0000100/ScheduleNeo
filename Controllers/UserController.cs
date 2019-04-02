@@ -76,12 +76,12 @@ namespace scheduleNEO.Controllers
                     // Sets the current user as logged in
                     int UserId = _context.Users.Last().Id;
                     HttpContext.Session.SetInt32("Id", UserId);
+                    TempData["Success"] = "Successfully created account.";
 
                 }else {
                     TempData["Error"] = "A user with that username already exists.";
                 }
             }
-            ModelState.Clear();
             return View("Index");
         }
 
@@ -99,7 +99,7 @@ namespace scheduleNEO.Controllers
                 if(Hasher.VerifyHashedPassword(user, user.Password, Password) != 0)
                 {
                     HttpContext.Session.SetInt32("Id", user.Id);
-                    return RedirectToAction("Schedule", "neo");
+                    return RedirectToAction("Schedule", "Neo");
                 }
             }
             TempData["Error"] = "Incorrect login information.";

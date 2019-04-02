@@ -25,6 +25,11 @@ namespace scheduleNEO.Controllers
         [Route("schedule")]
         public IActionResult Schedule()
         {
+            if(!CheckAdmin())
+            {
+                TempData["AccessError"] = "Your account does not have the neccessary credentials to access that page.";
+                return RedirectToAction("showNeos");
+            }
             return View("NewNeo");
         }
 
@@ -36,6 +41,7 @@ namespace scheduleNEO.Controllers
                                             .Include(n => n.Completers)
                                             .ToList();
             ViewBag.Neos = Neos;
+            ViewBag.Admin = CheckAdmin();
             return View("AllNeos");
         }
 
@@ -385,6 +391,14 @@ namespace scheduleNEO.Controllers
                 completer.AttendedTime = default(DateTime);
             }
             _context.SaveChanges();
+        }
+
+        // Checks to see if the person logged in is as an Admin
+        public Boolean CheckAdmin()
+        {
+            int? Id = HttpContext.Session.GetInt32("Id");
+            User user = _context.Users.Where(u => u.Id == Id).SingleOrDefault();
+            return (Id != null && user.Admin == 1);
         }
 
     }

@@ -25,7 +25,11 @@ namespace scheduleNEO.Controllers
         [Route("newEmployee")]
         public IActionResult newEmployee()
         {
-            //check if person has admin status
+            if(!CheckAdmin())
+            {
+                TempData["AccessError"] = "Your account does not have the neccessary credentials to access that page.";
+                return RedirectToAction("showNeos", "Neo");
+            }
             return View("NewEmployee");
         }
 
@@ -98,6 +102,7 @@ namespace scheduleNEO.Controllers
         {
             List<Employee> Employees = _context.Employees.OrderBy(e => e.FirstName).Include(e => e.Completers).ThenInclude(c => c.Neo).ToList();
             ViewBag.Employees = Employees;
+            ViewBag.Admin = CheckAdmin();
             return View("EmployeeList");
         }
 
@@ -127,6 +132,7 @@ namespace scheduleNEO.Controllers
             ViewBag.Attened = Employee.Completers.Where(c => c.Attended == 1).Count();
             ViewBag.Employee = Employee;
 
+            ViewBag.Admin = CheckAdmin();
             ViewBag.Notes = _context.Notes.Where(n => n.EmployeeId == Id).ToList();
             return View();
         }
@@ -173,6 +179,14 @@ namespace scheduleNEO.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("EmployeeList");
+        }
+
+        // Checks to see if the person logged in is as an Admin
+        public Boolean CheckAdmin()
+        {
+            int? Id = HttpContext.Session.GetInt32("Id");
+            User user = _context.Users.Where(u => u.Id == Id).SingleOrDefault();
+            return (Id != null && user.Admin == 1);
         }
     }
 }
