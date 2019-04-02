@@ -87,3 +87,13 @@ textarea {
     display: block;
     margin: 5px 0px 5px 0px;
 }
+
+.Note {
+    border: 1px solid #ddd;
+    height: 200px;
+    text-align: left;
+    overflow-y: scroll;
+    padding: 5px;
+    width: 50%;
+    word-wrap: break-word;
+}
