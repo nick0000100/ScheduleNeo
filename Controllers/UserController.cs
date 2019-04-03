@@ -99,7 +99,7 @@ namespace scheduleNEO.Controllers
                 if(Hasher.VerifyHashedPassword(user, user.Password, Password) != 0)
                 {
                     HttpContext.Session.SetInt32("Id", user.Id);
-                    return RedirectToAction("Schedule", "Neo");
+                    return RedirectToAction("showNeos", "Neo");
                 }
             }
             TempData["Error"] = "Incorrect login information.";

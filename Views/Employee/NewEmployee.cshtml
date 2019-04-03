@@ -28,16 +28,11 @@
         <label class="formBlock" asp-for="Alias"></label>
         <input class="formBlock" asp-for="Alias"/>
         <label for="Organization">What organization does this person belong to?</label><br>
-        <label>FTE Attorney</label></label>
-        <input type="radio" name="Organization" asp-for="Organization" value="Attorney">
-        <label>FTE Immigration Specialist</label></label>
-        <input type="radio" name="Organization" asp-for="Organization" value="Immigration Specialist">
-        <label>FTE PM</label></label>
-        <input type="radio" name="Organization" asp-for="Organization" value="PM">
-        <label>CELA Vendor</label>
-        <input type="radio" name="Organization" asp-for="Organization" value="CELA Vendor">
-        <label>Robert Half</label>
-        <input type="radio" name="Organization" asp-for="Organization" value="Robert Half"><br>
+        <label><input type="radio" name="Organization" asp-for="Organization" value="Attorney">FTE Attorney</label>
+        <label><input type="radio" name="Organization" asp-for="Organization" value="Immigration Specialist">FTE Immigration Specialist</label>
+        <label><input type="radio" name="Organization" asp-for="Organization" value="PM">FTE PM</label>
+        <label><input type="radio" name="Organization" asp-for="Organization" value="CELA Vendor">CELA Vendor</label>
+        <label><input type="radio" name="Organization" asp-for="Organization" value="Robert Half">Robert Half</label><br>
         <input type="submit" value="Add Employee">
     </fieldset>
 </form>

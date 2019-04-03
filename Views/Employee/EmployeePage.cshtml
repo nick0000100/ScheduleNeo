@@ -54,7 +54,7 @@
     </tbody>
 </table>
 
-<h2>Notes</h2>
+<h2>Notes:</h2>
 <div id="NoteArea">
 
     @if(@ViewBag.Admin == true)
@@ -70,11 +70,14 @@
         <div class="Note">
             <p>@Note.CreatedAt.ToString("MMMMM dd, yyyy"):</p>
             <p>@Note.NoteMessage</p>
-            <form asp-controller="Note" asp-action="DeleteNote" asp-route-id="@ViewBag.Employee.Id method="POST">
-                <input type="hidden" name="EmployeeId" value="@ViewBag.Employee.Id">
-                <input type="hidden" name="NoteId" value="@Note.Id">
-                <input type="submit" value="Delete Note">
-            </form>
+            @if(@ViewBag.Admin == true)
+            {
+                <form asp-controller="Note" asp-action="DeleteNote" asp-route-id="@ViewBag.Employee.Id method="POST">
+                    <input type="hidden" name="EmployeeId" value="@ViewBag.Employee.Id">
+                    <input type="hidden" name="NoteId" value="@Note.Id">
+                    <input type="submit" value="Delete Note">
+                </form>
+            }
         </div>
     }
     

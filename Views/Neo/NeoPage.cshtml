@@ -7,49 +7,57 @@
 <div id="NeoInfo">
     <div class="neoControls">
         <h2>Attendees: @ViewBag.Neo.Attendees</h2>
-
-        <form action="../updateAttendees/@ViewBag.Neo.Id" method="POST">
-            <label for="attendees">Update Attendees:</label>
-            <input class="inline" type="number" name="attendees">
-            <input type="submit" value="Update">
-        </form>
+        @if(@ViewBag.Admin == true)
+        {
+            <form action="../updateAttendees/@ViewBag.Neo.Id" method="POST">
+                <label for="attendees">Update Attendees:</label>
+                <input class="inline" type="number" name="attendees">
+                <input type="submit" value="Update">
+            </form>
+        }
     </div>
 
     <div class="neoControls">
         <h2>Incompletes: @ViewBag.Neo.Incompletes</h2>
-
-        <form action="../updateIncompletes/@ViewBag.Neo.Id" method="POST">
-            <label for="incompletes">Update Incompletes:</label>
-            <input class="inline" type="number" name="incompletes">
-            <input type="submit" value="Update">
-        </form>
+        @if(@ViewBag.Admin == true)
+            {
+                <form action="../updateIncompletes/@ViewBag.Neo.Id" method="POST">
+                    <label for="incompletes">Update Incompletes:</label>
+                    <input class="inline" type="number" name="incompletes">
+                    <input type="submit" value="Update">
+                </form>
+            }
     </div>
 
     <div class="neoControls">
         <h2>No Shows: @ViewBag.Neo.NoShows</h2>
-
-        <form action="../updateNoShows/@ViewBag.Neo.Id" method="POST">
-            <label for="noShows">Update No Shows:</label>
-            <input class="inline" type="number" name="noShows">
-            <input type="submit" value="Update">
-        </form>
+            @if(@ViewBag.Admin == true)
+            {
+                <form action="../updateNoShows/@ViewBag.Neo.Id" method="POST">
+                    <label for="noShows">Update No Shows:</label>
+                    <input class="inline" type="number" name="noShows">
+                    <input type="submit" value="Update">
+                </form>
+            }
     </div>
 
-    <div class="neoControls">
-        <h2>Invite</h2>
-
-        <form action="../inviteMore/@ViewBag.Neo.Id" method="POST">
-            <label for="invite">Update No Shows:</label>
-            <select name="Id">
-                @foreach (var Employee in ViewBag.NotInvited)
-                {
-                    <option value="" selected disabled hidden>Invite another employee</option>
-                    <option value="@Employee.Id">@Employee.FirstName @Employee.LastName</option>
-                }
-            </select>
-            <input type="submit" value="Invite">
-        </form>
-    </div>
+    @if(@ViewBag.Admin == true)
+    {
+        <div class="neoControls">
+            <h2>Invite</h2>
+                <form action="../inviteMore/@ViewBag.Neo.Id" method="POST">
+                    <label for="invite">Update No Shows:</label>
+                    <select name="Id">
+                        @foreach (var Employee in ViewBag.NotInvited)
+                        {
+                            <option value="" selected disabled hidden>Invite another employee</option>
+                            <option value="@Employee.Id">@Employee.FirstName @Employee.LastName</option>
+                        }
+                    </select>
+                    <input type="submit" value="Invite">
+                </form>
+        </div>
+    }
 </div>
 
 <h2>Invited Completers:</h2>
@@ -64,7 +72,10 @@
             <th>Time Showed Up</th>
             <th>Skipped</th>
             <th>OOF</th>
-            <th>Update</th>
+            @if(@ViewBag.Admin == true)
+            {
+                <th>Update</th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -110,29 +121,32 @@
             {
                 <td>No</td>
             }
-            <td class="controls">
-                <form action="../Attended/@ViewBag.Neo.Id" method="POST" class="SideBySide">
-                    <input type="hidden" name="Id" value="@Completer.Employee.Id">
-                    @if(@Completer.AttendedTime.TimeOfDay == TimeSpan.Zero)
-                    {
-                        <input type="submit" value="Attended">
-                    }
-                    else
-                    {
-                        <input type="submit" value="Attended" disabled="disabled">
-                    }
-                </form>
-                <form action="../Skipped/@ViewBag.Neo.Id" method="POST" class="SideBySide">
-                    <input type="hidden" name="Id" value="@Completer.Employee.Id">
-                    <input type="hidden" name="CompleterId" value="@Completer.Id">
-                    <input type="submit" value="Skipped">
-                </form>
-                <form action="../Uninvite/@ViewBag.Neo.Id" method="POST" class="SideBySide">
-                    <input type="hidden" name="Id" value="@Completer.Employee.Id">
-                    <input type="hidden" name="CompleterId" value="@Completer.Id">
-                    <input type="submit" value="Uninvite">
-                </form>
-            </td>
+            @if(@ViewBag.Admin == true)
+            {
+                <td class="controls">
+                    <form action="../Attended/@ViewBag.Neo.Id" method="POST" class="SideBySide">
+                        <input type="hidden" name="Id" value="@Completer.Employee.Id">
+                        @if(@Completer.AttendedTime.TimeOfDay == TimeSpan.Zero)
+                        {
+                            <input type="submit" value="Attended">
+                        }
+                        else
+                        {
+                            <input type="submit" value="Attended" disabled="disabled">
+                        }
+                    </form>
+                    <form action="../Skipped/@ViewBag.Neo.Id" method="POST" class="SideBySide">
+                        <input type="hidden" name="Id" value="@Completer.Employee.Id">
+                        <input type="hidden" name="CompleterId" value="@Completer.Id">
+                        <input type="submit" value="Skipped">
+                    </form>
+                    <form action="../Uninvite/@ViewBag.Neo.Id" method="POST" class="SideBySide">
+                        <input type="hidden" name="Id" value="@Completer.Employee.Id">
+                        <input type="hidden" name="CompleterId" value="@Completer.Id">
+                        <input type="submit" value="Uninvite">
+                    </form>
+                </td>
+            }
         </tr>
     }
     </tbody>

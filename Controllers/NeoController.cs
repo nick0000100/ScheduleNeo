@@ -73,6 +73,7 @@ namespace scheduleNEO.Controllers
                 }
             }
             ViewBag.NotInvited = NotInvited;
+            ViewBag.Admin = CheckAdmin();
             return View();
         }
 
