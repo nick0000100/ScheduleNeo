@@ -61,7 +61,7 @@
     {
         <form asp-controller="Note" asp-action="AddNote" asp-route-id="@ViewBag.Employee.Id method="POST">
             <input type="hidden" name="Id" value="@ViewBag.Employee.Id">
-            <textarea rows="7" cols="70" name="NoteContent">Add Note...</textarea>
+            <textarea rows="7" cols="70" name="NoteContent" placeholder="Add Note..."></textarea>
             <input type="submit" value="Add Note">
         </form>
     }
