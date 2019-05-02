@@ -15,5 +15,7 @@ namespace scheduleNEO.Models
         [DataType(DataType.Date)]
         [Display(Name="Date of NEO")]
         public DateTime? Date {get;set;}
+
+        public List<int> PreInvited {get; set;}
     }
 }
