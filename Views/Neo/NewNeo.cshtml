@@ -15,3 +15,23 @@
         <input class="formBlock" type="submit" value="Create/Schedule NEO">
     </fieldset>
 </form>
+
+
+<div id="Volunteers">
+    <label for="Add">Pre-Invite People:</label>
+    <select name="AllVolunteers" id="AllVolunteers">
+        @foreach (var Volunteer in ViewBag.Volunteers)
+        {
+            <option value="" selected disabled hidden>Pre-Invite People</option>
+            <option value="@Volunteer.Id">@Volunteer.FirstName @Volunteer.LastName</option>
+        }
+    </select>
+    <input type="button" name="invite" id="invite" value="Pre-Invite" />
+
+    <input type="button" name="uninvite" id="uninvite" value="Un-Invite" />
+</div>
+
+<select name="PreInvited" id="PreInvited" >
+
+</select>
+

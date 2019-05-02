@@ -21,6 +21,7 @@ namespace scheduleNEO.Controllers
             _context = context;
         }
 
+        // Shows page for creating a new NEO.
         [HttpGet]
         [Route("schedule")]
         public IActionResult Schedule()
@@ -30,6 +31,14 @@ namespace scheduleNEO.Controllers
                 TempData["AccessError"] = "Your account does not have the neccessary credentials to access that page.";
                 return RedirectToAction("showNeos");
             }
+
+            // Gets list of people not invited -- Could probably do this with the list of compelters taken from Neo object.
+            List<Employee> Volunteers = _context.Employees.OrderBy(e => e.FirstName)
+                                                            .Where(e => e.IsOther == 1)
+                                                            .ToList();
+
+            ViewBag.Volunteers = Volunteers;
+
             return View("NewNeo");
         }
 
