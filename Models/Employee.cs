@@ -23,6 +23,8 @@ namespace scheduleNEO.Models
 
         public int IsRobertHalf {get; set;}
 
+        public int IsOther {get; set;}
+
         public int Skipped {get; set;}
 
         public int OOF {get; set;}

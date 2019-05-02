@@ -47,6 +47,7 @@ namespace scheduleNEO.Controllers
                     int CelaCheck = 0;
                     int CelaVendorCheck = 0;
                     int RobertHalfCheck = 0;
+                    int IsOther = 0;
                     
                     // Assigned Organization to new employee
                     if(Organization == "Attorney" || Organization == "Immigration Specialist" || Organization == "Immigration Specialist")
@@ -55,6 +56,9 @@ namespace scheduleNEO.Controllers
                     }else if(Organization == "CELA Vendor")
                     {
                         CelaVendorCheck = 1;
+                    }else if(Organization == "Other")
+                    {
+                        IsOther = 1;
                     }else {
                         RobertHalfCheck = 1;
                     }
@@ -80,7 +84,8 @@ namespace scheduleNEO.Controllers
                         IsCela = CelaCheck,
                         IsCelaVendor = CelaVendorCheck,
                         Role = RoleCheck,
-                        IsRobertHalf = RobertHalfCheck
+                        IsRobertHalf = RobertHalfCheck,
+                        IsOther = IsOther
                     };
 
                     // Addes new employee to db
