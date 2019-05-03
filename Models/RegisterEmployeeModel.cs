@@ -7,7 +7,7 @@ namespace scheduleNEO.Models
     public class RegisterEmployeeModel : BaseEntity
     {
         [Required]
-        [MinLength(2)]
+        [MinLength(1)]
         [RegularExpression(@"^[A-Za-z0-9\s-]+$", ErrorMessage="No special characters.")]
         [Display(Name="First Name")]
         public string FirstName {get;set;}
