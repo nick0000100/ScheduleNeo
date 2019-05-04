@@ -148,16 +148,6 @@ namespace scheduleNEO.Controllers
 
                         Attending.AddRange(InviteMore(Cela, NeededCompleters - Attending.Count, CurrentNeo.Date));
                     }
-
-                    // Invite Volunteers if need more people
-                    if(NeededCompleters >= Attending.Count)
-                    {
-                        List<Employee> Volunteers = _context.Employees.Where(e => e.IsOther != 0)
-                                                            .OrderBy(e => e.LastAttended.Date)
-                                                            .ToList();
-
-                        Attending.AddRange(InviteMore(Volunteers, NeededCompleters - Attending.Count, CurrentNeo.Date));
-                    }
                 }
 
                 CreateAssociation(Attending, CurrentNeo.Id);
