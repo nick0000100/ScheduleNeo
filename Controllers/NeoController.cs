@@ -154,6 +154,9 @@ namespace scheduleNEO.Controllers
                 ViewBag.attendees = Attending;
                 return RedirectToAction("NeoPage", new {Id = CurrentNeo.Id});
             }
+            ViewBag.Volunteers = _context.Employees.OrderBy(e => e.FirstName)
+                                                            .Where(e => e.IsOther == 1)
+                                                            .ToList();
             return View("NewNeo");
         }
 
