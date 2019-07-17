@@ -110,15 +110,19 @@ namespace scheduleNEO.Controllers
                 Neo CurrentNeo = _context.Neos.Last();
 
                 // Gets the amount of completers needed
-                int NeededCompleters = attendees / 15 + 1 - newNEO.PreInvited.Count;
+		int NeededCompleters = (newNEO.PreInvited != null) ? attendees / 15 + 1 - newNEO.PreInvited.Count : attendees / 15 + 1;
+                //int NeededCompleters = attendees / 15 + 1 - newNEO.PreInvited.Count;
 
                 List<Employee> Attending = new List<Employee>();
 
                 // Adds the preinvited people to attending list
-                foreach(int VolunteerID in newNEO.PreInvited)
-                {
-                    Attending.Add(_context.Employees.Where(e => e.Id == VolunteerID).SingleOrDefault());
-                }
+		if(newNEO.PreInvited != null)
+		{
+                	foreach(int VolunteerID in newNEO.PreInvited)
+                	{
+                    	Attending.Add(_context.Employees.Where(e => e.Id == VolunteerID).SingleOrDefault());
+                	}
+		}
 
                 // Gets all Robert Half members and adds them to the attending list
                 Attending.AddRange(_context.Employees.Where(e => e.IsRobertHalf == 1).ToList());
